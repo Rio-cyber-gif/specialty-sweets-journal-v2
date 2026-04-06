@@ -1,0 +1,19 @@
+<div id="favorite_button_<%= specialty.id %>">
+  <% if user_signed_in? %>
+    <% if specialty.favorited_by?(current_user) %>
+      <%= button_to specialty_favorite_path(specialty), method: :delete,
+          class: "inline-flex items-center gap-1 text-sm px-3 py-1.5 rounded-md border",
+          style: "color: #dc2626; border-color: #dc2626; background: white; cursor: pointer;" do %>
+        ♥ お気に入り済み (<%= specialty.favorites.size %>)
+      <% end %>
+    <% else %>
+      <%= button_to specialty_favorite_path(specialty), method: :post,
+          class: "inline-flex items-center gap-1 text-sm px-3 py-1.5 rounded-md border",
+          style: "color: #d4a574; border-color: #d4a574; background: white; cursor: pointer;" do %>
+        ♡ お気に入りに追加 (<%= specialty.favorites.size %>)
+      <% end %>
+    <% end %>
+  <% else %>
+    <span class="text-sm" style="color: #a89080;">♡ <%= specialty.favorites.size %></span>
+  <% end %>
+</div>

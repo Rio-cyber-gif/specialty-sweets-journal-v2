@@ -1,0 +1,30 @@
+<% if popular_tags.any? %>
+  <%
+    counts = popular_tags.map(&:specialty_count).map(&:to_i)
+    min_count = counts.min
+    max_count = counts.max
+    min_size  = 11
+    max_size  = 22
+    range     = [max_count - min_count, 1].max
+  %>
+  <div class="bg-white rounded-xl border px-5 py-4 mb-6" style="border-color: #e8d5c4;">
+    <p class="text-xs font-semibold font-serif mb-3" style="color: #8b7355;">🏷 人気のタグ</p>
+    <div class="flex flex-wrap gap-2 items-baseline">
+      <% popular_tags.each do |tag| %>
+        <%
+          count    = tag.specialty_count.to_i
+          ratio    = (count - min_count).to_f / range
+          size     = (min_size + ratio * (max_size - min_size)).round
+          active   = params[:tag].to_s == tag.name
+          bg       = active ? '#8b7355'  : '#f5ece0'
+          color    = active ? '#ffffff'  : '#8b7355'
+          border   = active ? '#8b7355'  : '#e8d5c4'
+        %>
+        <%= link_to specialties_path(tag: tag.name),
+            style: "font-size: #{size}px; background-color: #{bg}; color: #{color}; border: 1px solid #{border}; padding: 2px 8px; border-radius: 9999px; transition: all 0.15s; line-height: 1.6;" do %>
+          #<%= tag.name %><% if count > 1 %><span style="font-size: <%= [size - 3, 9].max %>px; opacity: 0.7;"> <%= count %></span><% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

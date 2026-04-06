@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>銘菓旅手帖</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- ファビコン -->
+    <link rel="icon" href="<%= asset_path('favicon.svg') %>" type="image/svg+xml">
+    <link rel="alternate icon" href="<%= asset_path('favicon.png') %>" type="image/png">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- フォントの追加 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+    
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="min-h-screen flex flex-col" style="background-color: #f5f5f0; margin: 0; padding: 0;">
+    <!-- ヘッダーの読み込み -->
+    <%= render 'shared/header' %>
+    
+    <!-- メインコンテンツ -->
+    <main class="flex-1">
+      <!-- フラッシュメッセージの表示 -->
+      <%= render 'shared/flash_messages' %>
+      
+      <%= yield %>
+    </main>
+    
+    <!-- フッターの読み込み -->
+    <%= render 'shared/footer' %>
+
+    <!-- ページトップへ戻るボタン -->
+    <button
+      id="back-to-top"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      class="fixed z-40 flex items-center justify-center rounded-full shadow-lg transition-all duration-300"
+      style="bottom: 1.5rem; right: 1.5rem; width: 2.75rem; height: 2.75rem; background-color: #8b7355; color: white; opacity: 0; pointer-events: none;"
+      aria-label="ページトップへ"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+      </svg>
+    </button>
+    <script>
+      (function() {
+        var btn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', function() {
+          if (window.scrollY > 300) {
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+          } else {
+            btn.style.opacity = '0';
+            btn.style.pointerEvents = 'none';
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

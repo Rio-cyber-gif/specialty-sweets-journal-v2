@@ -1,0 +1,6 @@
+<%= turbo_stream.prepend "comments_list",
+    partial: "comments/comment",
+    locals: { comment: @comment, specialty: @specialty } %>
+<%= turbo_stream.replace "comment_form",
+    partial: "comments/form",
+    locals: { specialty: @specialty, comment: Comment.new } %>

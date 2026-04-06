@@ -1,0 +1,92 @@
+<% content_for(:title, '利用規約') %>
+
+<div class="bg-gradient-to-b from-amber-50/30 to-background min-h-screen" style="background-color: #f5f5f0;">
+  <div class="container mx-auto px-4 py-12 max-w-4xl">
+    <div class="card rounded-2xl" style="background-color: #ffffff;">
+      <div class="card-header" style="padding: 2rem;">
+        <h1 class="card-title" style="color: #2c2c2c;">利用規約</h1>
+      </div>
+    
+    <div class="card-body prose prose-sm" style="padding: 2rem;">
+      <section class="mb-6">
+        <h2 class="mb-3" style="color: #2c2c2c;">第1条(適用)</h2>
+        <p class="text-gray-600 mb-4">
+          本規約は、本サービスの利用に関する条件を、本サービスを利用するすべてのユーザーと当サービス運営者との間で定めるものです。
+        </p>
+      </section>
+
+      <section class="mb-6">
+        <h2 class="mb-3" style="color: #2c2c2c;">第2条(利用登録)</h2>
+        <p class="text-gray-600 mb-4">
+          本サービスの利用を希望する方は、本規約に同意の上、当サービスの定める方法によって利用登録を申請し、当サービスがこれを承認することによって、利用登録が完了するものとします。
+        </p>
+      </section>
+
+      <section class="mb-6">
+        <h2 class="mb-3" style="color: #2c2c2c;">第3条(ユーザーIDおよびパスワードの管理)</h2>
+        <p class="text-gray-600 mb-4">
+          ユーザーは、自己の責任において、本サービスのユーザーIDおよびパスワードを適切に管理するものとします。ユーザーは、いかなる場合にも、ユーザーIDおよびパスワードを第三者に譲渡または貸与し、もしくは第三者と共用することはできません。
+        </p>
+      </section>
+
+      <section class="mb-6">
+        <h2 class="mb-3" style="color: #2c2c2c;">第4条(禁止事項)</h2>
+        <p class="text-gray-600 mb-2">
+          ユーザーは、本サービスの利用にあたり、以下の行為をしてはなりません。
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-2 ml-4">
+          <li>法令または公序良俗に違反する行為</li>
+          <li>犯罪行為に関連する行為</li>
+          <li>他のユーザー、または第三者の知的財産権、肖像権、プライバシー、名誉その他の権利または利益を侵害する行為</li>
+          <li>本サービスのネットワークまたはシステム等に過度な負荷をかける行為</li>
+          <li>本サービスの運営を妨害するおそれのある行為</li>
+          <li>不正アクセスをし、またはこれを試みる行為</li>
+          <li>他のユーザーに関する個人情報等を収集または蓄積する行為</li>
+          <li>不正な目的を持って本サービスを利用する行為</li>
+          <li>その他、当サービスが不適切と判断する行為</li>
+        </ul>
+      </section>
+
+      <section class="mb-6">
+        <h2 class="mb-3" style="color: #2c2c2c;">第5条(本サービスの提供の停止等)</h2>
+        <p class="text-gray-600 mb-4">
+          当サービスは、以下のいずれかの事由があると判断した場合、ユーザーに事前に通知することなく本サービスの全部または一部の提供を停止または中断することができるものとします。
+        </p>
+      </section>
+
+      <section class="mb-6">
+        <h2 class="mb-3" style="color: #2c2c2c;">第6条(利用制限および登録抹消)</h2>
+        <p class="text-gray-600 mb-4">
+          当サービスは、ユーザーが以下のいずれかに該当する場合には、事前の通知なく、ユーザーに対して、本サービスの全部もしくは一部の利用を制限し、またはユーザーとしての登録を抹消することができるものとします。
+        </p>
+      </section>
+
+      <section class="mb-6">
+        <h2 class="mb-3" style="color: #2c2c2c;">第7条(免責事項)</h2>
+        <p class="text-gray-600 mb-4">
+          当サービスは、本サービスに関して、ユーザーと他のユーザーまたは第三者との間において生じた取引、連絡または紛争等について一切責任を負いません。
+        </p>
+      </section>
+
+      <section class="mb-6">
+        <h2 class="mb-3" style="color: #2c2c2c;">第8条(規約の変更)</h2>
+        <p class="text-gray-600 mb-4">
+          当サービスは、必要と判断した場合には、ユーザーに通知することなくいつでも本規約を変更することができるものとします。なお、本規約の変更後、本サービスの利用を開始した場合には、当該ユーザーは変更後の規約に同意したものとみなします。
+        </p>
+      </section>
+
+      <div class="mt-8 text-right text-gray-500">
+        <p>制定日: 2026年1月1日</p>
+      </div>
+    </div>
+    
+    <div class="px-6 py-4" style="padding: 2rem;">
+      <%= link_to root_path, class: "inline-flex items-center text-sm font-medium", style: "color: #8b7355;" do %>
+        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        ホームに戻る
+      <% end %>
+    </div>
+  </div>
+</div>

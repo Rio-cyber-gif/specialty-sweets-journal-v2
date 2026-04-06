@@ -1,0 +1,118 @@
+<div class="bg-gradient-to-b from-amber-50/30 to-background min-h-screen" style="background-color: #f5f5f0;">
+  <div class="container mx-auto px-4 py-12">
+    
+    <!-- 戻るボタン(トップページへ) -->
+    <div class="mb-6 max-w-4xl mx-auto">
+      <%= link_to root_path, class: "inline-flex items-center px-4 py-2 text-sm font-medium border rounded-md transition-colors hover:shadow-md", style: "color: #471e0a; background-color: white; border-color: #d4a574;" do %>
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        銘菓一覧に戻る
+      <% end %>
+    </div>
+
+    <!-- フォームカード(詳細画面と同じ幅) -->
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden" style="border: 2px solid #d4a574;">
+      
+      <!-- ヘッダー -->
+      <div class="px-6 py-4 border-b" style="border-color: #d4a574; background-color: #f5f5f0;">
+        <h1 class="text-2xl font-bold font-serif" style="color: #471e0a;">銘菓を投稿</h1>
+      </div>
+      
+      <div class="p-6 md:p-8">
+        <%= form_with model: @specialty, local: true, html: { class: 'space-y-6' } do |f| %>
+          
+          <!-- エラーメッセージ表示 -->
+          <% if @specialty.errors.any? %>
+            <div class="rounded-lg p-4" style="background-color: #fee; border: 1px solid #dc2626;">
+              <h4 class="font-semibold mb-2" style="color: #dc2626;">
+                <%= pluralize(@specialty.errors.count, "個") %>のエラーがあります:
+              </h4>
+              <ul class="list-disc list-inside" style="color: #dc2626;">
+                <% @specialty.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <!-- 銘菓名 -->
+          <div class="space-y-2">
+            <%= f.label :name, '銘菓名 *', class: 'block text-sm font-medium font-serif', style: 'color: #471e0a;' %>
+            <%= f.text_field :name, 
+                             class: 'w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 transition-all', 
+                             style: 'border-color: #d4a574; color: #471e0a;',
+                             placeholder: '例: 八ツ橋',
+                             required: true %>
+          </div>
+
+          <!-- 地域 -->
+          <div class="space-y-2">
+            <%= f.label :region, '地域 *', class: 'block text-sm font-medium font-serif', style: 'color: #471e0a;' %>
+            <% if defined?(Region) && Region.any? %>
+              <%= f.collection_select :region_id, 
+                                       Region.order(:name), 
+                                       :id, 
+                                       :name, 
+                                       { prompt: '地域を選択してください' }, 
+                                       { class: 'w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 transition-all', 
+                                         style: 'border-color: #d4a574; color: #471e0a;' } %>
+            <% else %>
+              <%= f.text_field :region, 
+                               class: 'w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 transition-all', 
+                               style: 'border-color: #d4a574; color: #471e0a;',
+                               placeholder: '例: 京都府',
+                               required: true %>
+            <% end %>
+          </div>
+
+          <!-- 説明 -->
+          <div class="space-y-2">
+            <%= f.label :description, '説明 *', class: 'block text-sm font-medium font-serif', style: 'color: #471e0a;' %>
+            <%= f.text_area :description, 
+                            class: 'w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 transition-all', 
+                            style: 'border-color: #d4a574; color: #471e0a;',
+                            rows: 6,
+                            placeholder: '銘菓の特徴や味わいを詳しく説明してください',
+                            required: true %>
+          </div>
+
+          <!-- タグ -->
+          <div class="space-y-2">
+            <%= f.label :tag_list, 'タグ（オプション）', class: 'block text-sm font-medium font-serif', style: 'color: #471e0a;' %>
+            <%= f.text_field :tag_list,
+                             class: 'w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 transition-all',
+                             style: 'border-color: #d4a574; color: #471e0a;',
+                             placeholder: '例: 和菓子, 焼き菓子, 贈り物' %>
+            <p class="text-xs" style="color: #a89080;">カンマ区切りで複数入力できます</p>
+          </div>
+
+          <!-- 画像アップロード -->
+          <div class="space-y-2">
+            <%= f.label :image, '画像(オプション)', class: 'block text-sm font-medium font-serif', style: 'color: #471e0a;' %>
+            <%= f.file_field :image, 
+                             class: 'w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 transition-all', 
+                             style: 'border-color: #d4a574; color: #471e0a;',
+                             accept: 'image/*' %>
+            <p class="text-sm flex items-center gap-1" style="color: #6b5744;">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              画像が未選択の場合、デフォルト画像が使用されます
+            </p>
+          </div>
+          <!-- 送信ボタン -->
+          <div class="flex gap-3 pt-4">
+            <%= link_to 'キャンセル', 
+                        root_path, 
+                        class: 'flex-1 px-4 py-3 border rounded-md text-center font-medium transition-colors hover:shadow-md', 
+                        style: 'color: #471e0a; background-color: white; border-color: #d4a574;' %>
+            <%= f.submit '投稿する', 
+                         class: 'flex-1 px-4 py-3 border rounded-md text-center font-medium transition-colors hover:shadow-md', 
+                         style: 'color: white; background-color: #b8854a; border-color: #b8854a;' %>
+          </div>
+        <% end %>  <!-- form_with の終了 -->
+      </div>  <!-- p-6 md:p-8 の div の終了 -->
+    </div>  <!-- フォームカード全体の div の終了 -->
+  </div>  <!-- container の div の終了 -->
+</div>  <!-- 背景の div の終了 -->

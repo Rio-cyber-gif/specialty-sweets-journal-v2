@@ -1,0 +1,40 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+    attributes:
+      user:
+        name: お名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード確認
+  defaults:
+    flash_message:
+      created: "%{item}を作成しました"
+      updated: "%{item}を更新しました"
+      destroyed: "%{item}を削除しました"
+      not_created: "%{item}を作成できませんでした"
+      not_updated: "%{item}を更新できませんでした"
+      not_destroyed: "%{item}を削除できませんでした"
+  admin:
+    dashboard:
+      index:
+        title: ダッシュボード
+        users_count: ユーザー数
+        sweets_count: お菓子数
+        specialties_count: 銘菓数
+    users:
+      index:
+        title: ユーザー一覧
+      edit:
+        title: ユーザー編集
+    sweets:
+      index:
+        title: お菓子一覧
+      edit:
+        title: お菓子編集
+  helpers:
+    submit:
+      create: 登録
+      submit: 保存
+      update: 更新

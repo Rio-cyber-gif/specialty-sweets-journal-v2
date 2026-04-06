@@ -1,0 +1,42 @@
+Rails.application.routes.draw do
+  namespace :admin do
+    root 'dashboard#index'  # 管理画面のトップページ
+    resources :users, only: [:index, :edit, :update, :destroy]
+    resources :sweets, only: [:index, :edit, :update, :destroy]
+  end
+  # Devise（ユーザー認証）
+  devise_for :users
+  
+  # ルートページ
+  root 'home#index'
+  
+  # Specialties（銘菓）の全アクション
+  resources :specialties do
+    resources :comments, only: %i[create destroy]
+    resource :favorite, only: %i[create destroy]
+  end
+
+  # 地域別ページ
+  resources :regions, only: [:show]
+
+  # 地方ブロック別ページ
+  get 'region_blocks/:block', to: 'region_blocks#show', as: :region_block_page
+
+  # マイページ
+  get 'mypage', to: 'users#mypage', as: :mypage
+
+  # Sweets（お菓子）の限定アクション
+  resources :sweets, only: %i[new create show edit update destroy]
+
+  # 静的ページ
+  get 'terms', to: 'pages#terms'
+  get 'privacy', to: 'pages#privacy'
+  get 'guide', to: 'pages#guide', as: :guide
+  
+  # ヘルスチェック（本番環境で必要な場合）
+  # get "up" => "rails/health#show", as: :rails_health_check
+  
+  # PWA機能（Progressive Web App用）
+  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+end

@@ -1,0 +1,27 @@
+FROM ruby:3.2.0
+ENV LANG C.UTF-8
+ENV TZ Asia/Tokyo
+ENV APP /app
+
+RUN gem install bundler:2.4.19
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+ && apt update -qq \
+ && apt install -y build-essential postgresql-client nodejs libvips libvips-dev libvips-tools \
+ && npm install --global yarn
+
+WORKDIR $APP
+
+# Gemfileのみコピー（Gemfile.lockは除外）
+COPY Gemfile $APP/Gemfile
+
+# bundle installでGemfile.lockを自動生成
+RUN bundle install
+
+# アプリケーション全体をコピー
+COPY . $APP
+
+# ポート3000を公開
+EXPOSE 3000
+
+# Rails サーバーを起動
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]

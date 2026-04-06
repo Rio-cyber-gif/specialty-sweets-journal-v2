@@ -1,0 +1,35 @@
+<% content_for :page_title, 'ユーザー管理' %>
+
+<div style="background: white; border-radius: 10px; border: 1px solid #e8d5c4; box-shadow: 0 1px 4px rgba(71,30,10,0.06); overflow: hidden;">
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr style="background-color: #faf6f2; border-bottom: 2px solid #e8d5c4;">
+        <th style="padding: 0.875rem 1.25rem; text-align: left; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #a89080; font-weight: 600;">ID</th>
+        <th style="padding: 0.875rem 1.25rem; text-align: left; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #a89080; font-weight: 600;">メールアドレス</th>
+        <th style="padding: 0.875rem 1.25rem; text-align: left; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #a89080; font-weight: 600;">権限</th>
+        <th style="padding: 0.875rem 1.25rem; text-align: left; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #a89080; font-weight: 600;">登録日</th>
+        <th style="padding: 0.875rem 1.25rem; text-align: left; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #a89080; font-weight: 600;">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each_with_index do |user, i| %>
+        <tr style="border-bottom: 1px solid #f0e6dc; <%= i.even? ? '' : 'background-color: #fdfcfb;' %>">
+          <td style="padding: 0.875rem 1.25rem; font-size: 0.8rem; color: #a89080;">#<%= user.id %></td>
+          <td style="padding: 0.875rem 1.25rem; font-size: 0.875rem; color: #471e0a;"><%= user.email %></td>
+          <td style="padding: 0.875rem 1.25rem;">
+            <% if user.admin? %>
+              <span style="background-color: #471e0a; color: #d4a574; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;">管理者</span>
+            <% else %>
+              <span style="background-color: #f0e6dc; color: #8b7355; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em;">一般</span>
+            <% end %>
+          </td>
+          <td style="padding: 0.875rem 1.25rem; font-size: 0.8rem; color: #a89080;"><%= user.created_at.strftime('%Y/%m/%d %H:%M') %></td>
+          <td style="padding: 0.875rem 1.25rem;">
+            <%= link_to '編集', edit_admin_user_path(user), style: 'font-size: 0.8rem; color: #d4a574; text-decoration: none; margin-right: 1rem; font-weight: 500;' %>
+            <%= link_to '削除', admin_user_path(user), data: { turbo_method: :delete, turbo_confirm: '本当に削除しますか？' }, style: 'font-size: 0.8rem; color: #c0392b; text-decoration: none; font-weight: 500;' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
