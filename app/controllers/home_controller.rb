@@ -10,7 +10,6 @@ class HomeController < ApplicationController
                      .per(6)
     @specialties = @specialties.joins(:tags).where(tags: { name: params[:tag].downcase.strip }) if params[:tag].present?
     @regions = Region.order(:name)
-    @categories = Category.all
     @popular_specialties = Specialty
       .left_joins(:favorites)
       .group(:id)
@@ -31,34 +30,6 @@ class HomeController < ApplicationController
       'kyushu'   => region_counts.slice(*blocks['kyushu']).values.sum,
       'shikoku'  => region_counts.slice(*blocks['shikoku']).values.sum
     }
-  end
-
-  def create_sample_data
-    return if Rails.env.production?
-
-    create_sample_categories
-    create_sample_regions
-    create_sample_specialties
-
-    redirect_to root_path, notice: 'Sample data has been created'
-  end
-
-  private
-
-  def create_sample_categories
-    Category.create!([
-                       { name: '和菓子', description: '伝統的な日本のお菓子' },
-                       { name: '洋菓子', description: '西洋風のお菓子' },
-                       { name: '駄菓子', description: '懐かしい味の駄菓子' }
-                     ])
-  end
-
-  def create_sample_regions
-    Region.create!([
-                     { name: '北海道', description: '北の大地の特産品' },
-                     { name: '東京', description: '首都の特産品' },
-                     { name: '大阪', description: '関西の特産品' }
-                   ])
   end
 
 end
