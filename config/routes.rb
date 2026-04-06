@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root 'dashboard#index'  # 管理画面のトップページ
     resources :users, only: [:index, :edit, :update, :destroy]
-    resources :sweets, only: [:index, :edit, :update, :destroy]
+    resources :specialties, only: [:index, :edit, :update, :destroy]
   end
   # Devise（ユーザー認証）
   devise_for :users
