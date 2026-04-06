@@ -25,9 +25,6 @@ Rails.application.routes.draw do
   # マイページ
   get 'mypage', to: 'users#mypage', as: :mypage
 
-  # Sweets（お菓子）の限定アクション
-  resources :sweets, only: %i[new create show edit update destroy]
-
   # 静的ページ
   get 'terms', to: 'pages#terms'
   get 'privacy', to: 'pages#privacy'
