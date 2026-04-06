@@ -11,6 +11,6 @@ class ApplicationController < ActionController::Base
     # 新規登録時にnameを許可
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
     # アカウント更新時にname・bio・avatarを許可
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :bio, :avatar])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[name bio avatar])
   end
 end

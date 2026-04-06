@@ -14,13 +14,14 @@ class Specialty < ApplicationRecord
   end
 
   def tag_list=(names_str)
-    self.tags = names_str.to_s.split(',').map(&:strip).reject(&:blank?).uniq.map do |name|
+    self.tags = names_str.to_s.split(',').map(&:strip).compact_blank.uniq.map do |name|
       Tag.find_or_create_by!(name: name.downcase.strip)
     end
   end
 
   def favorited_by?(user)
     return false unless user
+
     favorites.exists?(user_id: user.id)
   end
 
@@ -28,11 +29,11 @@ class Specialty < ApplicationRecord
 
   validate :image_type_and_size, if: -> { image.attached? }
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     %w[name region_id]
   end
 
-  def self.ransackable_associations(auth_object = nil)
+  def self.ransackable_associations(_auth_object = nil)
     %w[region tags]
   end
 

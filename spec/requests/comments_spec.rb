@@ -19,15 +19,15 @@ RSpec.describe 'Comments', type: :request do
       before { sign_in user }
 
       it '有効なパラメータでコメントが作成できること' do
-        expect {
+        expect do
           post specialty_comments_path(specialty), params: { comment: { body: 'テストコメント' } }
-        }.to change(Comment, :count).by(1)
+        end.to change(Comment, :count).by(1)
       end
 
       it '空bodyではコメントが作成されないこと' do
-        expect {
+        expect do
           post specialty_comments_path(specialty), params: { comment: { body: '' } }
-        }.not_to change(Comment, :count)
+        end.not_to change(Comment, :count)
       end
 
       it '作成されたコメントのuserが現在のユーザーであること' do
@@ -51,9 +51,9 @@ RSpec.describe 'Comments', type: :request do
       before { sign_in user }
 
       it 'コメントが削除されること' do
-        expect {
+        expect do
           delete specialty_comment_path(specialty, comment)
-        }.to change(Comment, :count).by(-1)
+        end.to change(Comment, :count).by(-1)
       end
     end
 
@@ -61,9 +61,9 @@ RSpec.describe 'Comments', type: :request do
       before { sign_in other_user }
 
       it '他人のコメントを削除できないこと' do
-        expect {
+        expect do
           delete specialty_comment_path(specialty, comment)
-        }.not_to change(Comment, :count)
+        end.not_to change(Comment, :count)
       end
 
       it 'エラーメッセージ付きでリダイレクトされること' do

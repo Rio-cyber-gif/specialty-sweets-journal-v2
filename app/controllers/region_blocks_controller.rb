@@ -10,10 +10,10 @@ class RegionBlocksController < ApplicationController
 
     @block_name = REGION_BLOCK_NAMES[block_key]
     @specialties = Specialty
-      .where(region_id: REGION_BLOCKS[block_key])
-      .includes(:user, :favorites, :tags, :region)
-      .order(created_at: :desc)
-      .page(params[:page])
-      .per(9)
+                   .where(region_id: REGION_BLOCKS[block_key])
+                   .includes(:user, :favorites, :tags, :region)
+                   .order(created_at: :desc)
+                   .page(params[:page])
+                   .per(9)
   end
 end

@@ -11,25 +11,9 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to @specialty, success: 'コメントを投稿しました' }
-      end
+      respond_to_comment_success
     else
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            'comment_form',
-            partial: 'comments/form',
-            locals: { specialty: @specialty, comment: @comment }
-          )
-        end
-        format.html do
-          @comments = @specialty.comments.includes(:user).order(created_at: :desc)
-          flash.now[:danger] = 'コメントの投稿に失敗しました'
-          render 'specialties/show', status: :unprocessable_content
-        end
-      end
+      respond_to_comment_failure
     end
   end
 
@@ -59,4 +43,30 @@ class CommentsController < ApplicationController
   def comment_params
     params.require(:comment).permit(:body)
   end
+
+  def respond_to_comment_success
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @specialty, success: 'コメントを投稿しました' }
+    end
+  end
+
+  # rubocop:disable Metrics/MethodLength
+  def respond_to_comment_failure
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'comment_form',
+          partial: 'comments/form',
+          locals: { specialty: @specialty, comment: @comment }
+        )
+      end
+      format.html do
+        @comments = @specialty.comments.includes(:user).order(created_at: :desc)
+        flash.now[:danger] = 'コメントの投稿に失敗しました'
+        render 'specialties/show', status: :unprocessable_content
+      end
+    end
+  end
+  # rubocop:enable Metrics/MethodLength
 end

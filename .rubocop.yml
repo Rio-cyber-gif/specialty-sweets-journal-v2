@@ -1,6 +1,4 @@
-# 基本的なRails用RuboCop設定
-require:
-  - rubocop-rails
+plugins: rubocop-rails
 
 AllCops:
   NewCops: enable
@@ -12,14 +10,23 @@ AllCops:
     - 'bin/**/*'
     - 'node_modules/**/*'
 
-# カスタムルール（元の設定を維持）
-Layout/SpaceInsideArrayLiteralBrackets:
-  Enabled: false
-# 学習段階での設定最適化
-Style/Documentation:
-  Enabled: false
+# ドキュメントコメント不要
 Style/Documentation:
   Enabled: false
 
+# 国際化対応は対象外
 Rails/I18nLocaleTexts:
-  Enabled: false  # 国際化対応を一時的に無効化
+  Enabled: false
+
+# spec ファイルはテストの可読性のためブロック長を緩和
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+# spec ファイルはメソッド長を緩和
+Metrics/MethodLength:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
