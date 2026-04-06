@@ -1,12 +1,8 @@
 {
   "ignored_warnings": [
     {
-      "fingerprint": "brakeman_fingerprint_for_ruby_eol",
-      "note": "Ruby 3.1.7 EOL warning ignored for development environment"
-    },
-    {
-      "fingerprint": "brakeman_fingerprint_for_rails_eol", 
-      "note": "Rails 7.0.10 EOL warning ignored for development environment"
+      "fingerprint": "edf687f759ec9765bd5db185dbc615c80af77d6e7e19386fc42934e7a80307af",
+      "note": "Ruby 3.2.6 EOL warning. Upgrade to 3.3.x is planned."
     }
   ]
 }
