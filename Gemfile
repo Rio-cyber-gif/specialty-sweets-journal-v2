@@ -11,7 +11,7 @@ gem 'image_processing', '~> 1.2' # Active Storage用（既存）
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'pg', '~> 1.1'
-gem 'puma', '~> 6.0'
+gem 'puma', '~> 7.2'
 gem 'rails', '~> 7.2.0'
 gem 'redis', '>= 4.0.1'
 gem 'sassc-rails'
