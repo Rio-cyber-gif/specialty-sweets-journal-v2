@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "favorite_button_#{@specialty.id}",
+    partial: "favorites/button",
+    locals: { specialty: @specialty } %>

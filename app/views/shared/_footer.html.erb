@@ -1,0 +1,45 @@
+<!-- Footer -->
+<footer class="mt-auto" style="background: linear-gradient(to bottom, #faf6f2, #f0e8dc); border-top: 1px solid #e8d5c4;">
+  <div class="container mx-auto px-4 py-10 flex flex-col items-center gap-5">
+
+    <%# 花モチーフ（小） %>
+    <div class="flex items-center gap-3">
+      <svg width="28" height="28" viewBox="0 0 50 50" fill="none">
+        <circle cx="25" cy="10" r="6.5" fill="#f28b9a" opacity="0.75"/>
+        <circle cx="40" cy="20" r="6.5" fill="#f5b85a" opacity="0.75"/>
+        <circle cx="37" cy="37" r="6.5" fill="#a8d8a0" opacity="0.75"/>
+        <circle cx="13" cy="37" r="6.5" fill="#9ec8f0" opacity="0.75"/>
+        <circle cx="10" cy="20" r="6.5" fill="#c4a0e0" opacity="0.75"/>
+        <circle cx="25" cy="25" r="5.5" fill="#e8c040" opacity="0.85"/>
+      </svg>
+
+      <%# ロゴテキスト %>
+      <div style="display: flex; flex-direction: column; line-height: 1.2; text-align: center;">
+        <span style="font-family: Georgia, 'Times New Roman', serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.03em; background: linear-gradient(90deg, #c9405a, #d97030, #b89010); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Specialty Sweets</span>
+        <span style="font-family: Georgia, 'Times New Roman', serif; font-size: 0.55rem; font-weight: 400; letter-spacing: 0.22em; color: #a89080; text-transform: uppercase;">Journal</span>
+      </div>
+
+      <svg width="28" height="28" viewBox="0 0 50 50" fill="none">
+        <circle cx="25" cy="10" r="6.5" fill="#f28b9a" opacity="0.75"/>
+        <circle cx="40" cy="20" r="6.5" fill="#f5b85a" opacity="0.75"/>
+        <circle cx="37" cy="37" r="6.5" fill="#a8d8a0" opacity="0.75"/>
+        <circle cx="13" cy="37" r="6.5" fill="#9ec8f0" opacity="0.75"/>
+        <circle cx="10" cy="20" r="6.5" fill="#c4a0e0" opacity="0.75"/>
+        <circle cx="25" cy="25" r="5.5" fill="#e8c040" opacity="0.85"/>
+      </svg>
+    </div>
+
+    <%# 区切り線 %>
+    <div style="width: 3rem; height: 1px; background: linear-gradient(to right, transparent, #d4a574, transparent);"></div>
+
+    <%# 法的リンク %>
+    <div class="flex gap-6 text-sm">
+      <%= link_to "利用規約", terms_path, style: "color: #8b7355; text-decoration: none;", class: "hover:underline" %>
+      <%= link_to "プライバシーポリシー", privacy_path, style: "color: #8b7355; text-decoration: none;", class: "hover:underline" %>
+    </div>
+
+    <%# コピーライト %>
+    <p class="text-xs" style="color: #c4a88a;">© 2025 Specialty Sweets Journal. All rights reserved.</p>
+
+  </div>
+</footer>

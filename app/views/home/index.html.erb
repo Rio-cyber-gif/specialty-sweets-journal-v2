@@ -1,0 +1,361 @@
+<div class="bg-gradient-to-b from-amber-50/30 to-background min-h-screen" style="background-color: #f5f5f0;">
+  <div class="container mx-auto px-4 py-12">
+    <%# Hero Section %>
+    <div class="text-center mb-12">
+      <h1 class="text-5xl md:text-6xl font-bold mb-4 tracking-wider font-serif flex items-center justify-center gap-4">
+
+        <%# 左側の花（カラフル） %>
+        <svg class="w-12 h-12 md:w-14 md:h-14 flex-shrink-0" viewBox="0 0 50 50" fill="none">
+          <circle cx="25" cy="10" r="6.5" fill="#f28b9a"/>
+          <circle cx="40" cy="20" r="6.5" fill="#f5b85a"/>
+          <circle cx="37" cy="37" r="6.5" fill="#a8d8a0"/>
+          <circle cx="13" cy="37" r="6.5" fill="#9ec8f0"/>
+          <circle cx="10" cy="20" r="6.5" fill="#c4a0e0"/>
+          <circle cx="25" cy="25" r="5.5" fill="#e8c040"/>
+        </svg>
+
+        <span style="color: #471e0a;">銘菓旅手帖</span>
+
+        <%# 右側の花（カラフル） %>
+        <svg class="w-12 h-12 md:w-14 md:h-14 flex-shrink-0" viewBox="0 0 50 50" fill="none">
+          <circle cx="25" cy="10" r="6.5" fill="#f28b9a"/>
+          <circle cx="40" cy="20" r="6.5" fill="#f5b85a"/>
+          <circle cx="37" cy="37" r="6.5" fill="#a8d8a0"/>
+          <circle cx="13" cy="37" r="6.5" fill="#9ec8f0"/>
+          <circle cx="10" cy="20" r="6.5" fill="#c4a0e0"/>
+          <circle cx="25" cy="25" r="5.5" fill="#e8c040"/>
+        </svg>
+
+      </h1>
+
+      <p class="text-lg" style="color: #8b7355;">
+        旅路を彩る、和洋甘味の羅針盤
+      </p>
+    </div>
+
+    <%# ━━━ 使い方ステップガイド ━━━ %>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+
+      <%# Step 1 %>
+      <div class="flex items-start gap-4 bg-white rounded-xl border px-5 py-4" style="border-color: #e8d5c4;">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg" style="background: linear-gradient(135deg, #e8657a, #f0a050);">1</div>
+        <div>
+          <p class="font-bold text-sm mb-1 font-serif" style="color: #471e0a;">地域から探す</p>
+          <p class="text-xs leading-relaxed" style="color: #8b7355;">地図から気になる地方をタップ。都道府県ごとの銘菓をまとめて確認できます。</p>
+        </div>
+      </div>
+
+      <%# Step 2 %>
+      <div class="flex items-start gap-4 bg-white rounded-xl border px-5 py-4" style="border-color: #e8d5c4;">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg" style="background: linear-gradient(135deg, #f0a050, #e8c040);">2</div>
+        <div>
+          <p class="font-bold text-sm mb-1 font-serif" style="color: #471e0a;">銘菓を見つける</p>
+          <p class="text-xs leading-relaxed" style="color: #8b7355;">銘菓名や地域で検索。人気ランキングやお気に入り数も参考にしてみてください。</p>
+        </div>
+      </div>
+
+      <%# Step 3 %>
+      <div class="flex items-start gap-4 bg-white rounded-xl border px-5 py-4" style="border-color: #e8d5c4;">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg" style="background: linear-gradient(135deg, #c4a0e0, #9ec8f0);">3</div>
+        <div>
+          <p class="font-bold text-sm mb-1 font-serif" style="color: #471e0a;">投稿・シェアする</p>
+          <p class="text-xs leading-relaxed" style="color: #8b7355;">旅先で出会った銘菓を登録して記録に残しましょう。コメントやお気に入りで盛り上げよう。</p>
+        </div>
+      </div>
+
+    </div>
+
+    <%# ━━━ 地域マップ × ランキング（3カラム）━━━ %>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+
+      <%# 左2カラム: 地域から探す（日本地図） %>
+      <div class="md:col-span-2 flex flex-col">
+        <p class="text-sm font-semibold font-serif mb-3" style="color: #8b7355;">🗾 地域から探す</p>
+        <div class="bg-white rounded-xl border p-3 flex-1" style="border-color: #e8d5c4;">
+          <%#
+            日本地図 — 8地方ブロック (viewBox 500x440)
+            ・北海道(右上)→九州(左下) 対角NE-SW配置
+            ・各ブロックが重ならないよう x/y を設計
+            ・隣接する本州ブロックは中部を横断ベルトとして隣接
+            ・四国・九州は独立した島として隙間あり
+          %>
+          <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" class="w-full" style="display:block;">
+            <defs>
+              <style>
+                .tm { stroke: white; stroke-width: 3; cursor: pointer; transition: fill 0.18s; }
+                .tm-hokkaido       { fill: #b8d8f0; } .tm-hokkaido:hover       { fill: #90bce0; }
+                .tm-tohoku         { fill: #b8d8b8; } .tm-tohoku:hover         { fill: #90c090; }
+                .tm-kanto          { fill: #e8dcc8; } .tm-kanto:hover          { fill: #d4c4a8; }
+                .tm-chubu          { fill: #c4d8ec; } .tm-chubu:hover          { fill: #9cbcd8; }
+                .tm-chugoku        { fill: #b8d8d0; } .tm-chugoku:hover        { fill: #8cc0b4; }
+                .tm-kinki          { fill: #d8c8e8; } .tm-kinki:hover          { fill: #c0a8d4; }
+                .tm-kyushu         { fill: #f0ccb8; } .tm-kyushu:hover         { fill: #d8a890; }
+                .tm-shikoku        { fill: #cce0b0; } .tm-shikoku:hover        { fill: #acc87c; }
+                .tml { font-size: 13px; fill: #2d1006; text-anchor: middle; dominant-baseline: middle; pointer-events: none; font-family: serif; font-weight: bold; }
+                .tms { font-size: 9px; fill: #5a3820; text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+                .tmc { font-size: 9px; fill: #3a1a08; text-anchor: end; pointer-events: none; font-family: sans-serif; opacity: 0.65; }
+              </style>
+              <linearGradient id="seaGrad2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#c9a87a"/>
+                <stop offset="100%" stop-color="#b8955e"/>
+              </linearGradient>
+            </defs>
+            <rect width="500" height="400" fill="url(#seaGrad2)" rx="10"/>
+
+            <%# Row1: 北海道（左60%）| 東北（右40%） %>
+            <a href="<%= region_path(1) %>">
+              <rect class="tm tm-hokkaido" x="3" y="3" width="294" height="96" rx="6"/>
+              <text class="tml" x="150" y="51">北海道</text>
+              <text class="tmc" x="292" y="93"><%= @block_counts['hokkaido'] %>件</text>
+            </a>
+            <a href="<%= region_block_page_path('tohoku') %>">
+              <rect class="tm tm-tohoku" x="300" y="3" width="197" height="96" rx="6"/>
+              <text class="tml" x="398" y="32">東北</text>
+              <text class="tms" x="398" y="48">青森・岩手・宮城</text>
+              <text class="tms" x="398" y="61">秋田・山形・福島</text>
+              <text class="tmc" x="492" y="93"><%= @block_counts['tohoku'] %>件</text>
+            </a>
+
+            <%# Row2: 関東（左50%）| 中部（右50%） %>
+            <a href="<%= region_block_page_path('kanto') %>">
+              <rect class="tm tm-kanto" x="3" y="102" width="244" height="96" rx="6"/>
+              <text class="tml" x="125" y="131">関東</text>
+              <text class="tms" x="125" y="147">茨城・栃木・群馬・埼玉</text>
+              <text class="tms" x="125" y="160">千葉・東京・神奈川</text>
+              <text class="tmc" x="242" y="192"><%= @block_counts['kanto'] %>件</text>
+            </a>
+            <a href="<%= region_block_page_path('chubu') %>">
+              <rect class="tm tm-chubu" x="250" y="102" width="247" height="96" rx="6"/>
+              <text class="tml" x="373" y="131">中部</text>
+              <text class="tms" x="373" y="147">新潟・富山・石川・福井・山梨</text>
+              <text class="tms" x="373" y="160">長野・岐阜・静岡・愛知</text>
+              <text class="tmc" x="492" y="192"><%= @block_counts['chubu'] %>件</text>
+            </a>
+
+            <%# Row3: 中国（左40%）| 近畿（右60%） %>
+            <a href="<%= region_block_page_path('chugoku') %>">
+              <rect class="tm tm-chugoku" x="3" y="201" width="194" height="96" rx="6"/>
+              <text class="tml" x="100" y="231">中国</text>
+              <text class="tms" x="100" y="247">鳥取・島根・岡山</text>
+              <text class="tms" x="100" y="260">広島・山口</text>
+              <text class="tmc" x="192" y="291"><%= @block_counts['chugoku'] %>件</text>
+            </a>
+            <a href="<%= region_block_page_path('kinki') %>">
+              <rect class="tm tm-kinki" x="200" y="201" width="297" height="96" rx="6"/>
+              <text class="tml" x="348" y="231">近畿</text>
+              <text class="tms" x="348" y="247">三重・滋賀・京都・大阪</text>
+              <text class="tms" x="348" y="260">兵庫・奈良・和歌山</text>
+              <text class="tmc" x="492" y="291"><%= @block_counts['kinki'] %>件</text>
+            </a>
+
+            <%# Row4: 九州・沖縄（左57%）| 四国（右43%） %>
+            <a href="<%= region_block_page_path('kyushu') %>">
+              <rect class="tm tm-kyushu" x="3" y="300" width="277" height="97" rx="6"/>
+              <text class="tml" x="141" y="330">九州・沖縄</text>
+              <text class="tms" x="141" y="346">福岡・佐賀・長崎・熊本</text>
+              <text class="tms" x="141" y="359">大分・宮崎・鹿児島・沖縄</text>
+              <text class="tmc" x="275" y="391"><%= @block_counts['kyushu'] %>件</text>
+            </a>
+            <a href="<%= region_block_page_path('shikoku') %>">
+              <rect class="tm tm-shikoku" x="283" y="300" width="214" height="97" rx="6"/>
+              <text class="tml" x="390" y="333">四国</text>
+              <text class="tms" x="390" y="349">徳島・香川</text>
+              <text class="tms" x="390" y="362">愛媛・高知</text>
+              <text class="tmc" x="492" y="391"><%= @block_counts['shikoku'] %>件</text>
+            </a>
+          </svg>
+          <p class="text-center text-xs mt-2" style="color: #a89080;">ブロックをタップして地域の銘菓を見る</p>
+        </div>
+      </div>
+
+      <%# 右1カラム: お気に入りランキング %>
+      <div class="md:col-span-1 flex flex-col">
+        <div class="mb-3" style="height: 1.25rem;"></div>
+        <% if @popular_specialties.any? %>
+          <div class="rounded-xl border overflow-hidden flex-1 flex flex-col" style="border-color: #e8d5c4; background-color: white;">
+
+            <%# ヘッダー %>
+            <div class="flex items-center gap-2 px-3 py-2.5" style="background: linear-gradient(135deg, #f5e6c8, #ecdcc0); border-bottom: 1px solid #e8d5c4;">
+              <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none">
+                <path d="M5 16 L3 8 L8 12 L12 4 L16 12 L21 8 L19 16 Z" fill="#c9a254" stroke="#b8904a" stroke-width="0.5" stroke-linejoin="round"/>
+                <rect x="5" y="17" width="14" height="2.5" rx="1.2" fill="#c9a254"/>
+              </svg>
+              <span class="text-xs font-bold font-serif tracking-wide" style="color: #5a3010;">人気の銘菓ランキング</span>
+            </div>
+
+            <ul class="divide-y flex-1" style="divide-color: #f0e6dc;">
+              <% @popular_specialties.each_with_index do |specialty, i| %>
+                <%
+                  row_bg    = i == 0 ? 'background-color: #fffcf0;' : i == 1 ? 'background-color: #fafafa;' : i == 2 ? 'background-color: #fdf8f4;' : ''
+                  badge_bg  = i == 0 ? '#c9a254' : i == 1 ? '#9ea8b0' : i == 2 ? '#b07848' : nil
+                %>
+                <li style="<%= row_bg %> border-bottom: 1px solid #f0e6dc;">
+                  <%= link_to specialty_path(specialty), class: "flex items-center gap-2.5 px-3 py-2.5 transition hover:brightness-95 block" do %>
+
+                    <%# 順位バッジ %>
+                    <% if badge_bg %>
+                      <span class="flex-shrink-0 flex items-center justify-center rounded-full text-white font-bold"
+                            style="width:20px;height:20px;font-size:10px;background-color:<%= badge_bg %>;">
+                        <%= i + 1 %>
+                      </span>
+                    <% else %>
+                      <span class="flex-shrink-0 text-center font-medium" style="width:20px;font-size:11px;color:#b0a090;">
+                        <%= i + 1 %>
+                      </span>
+                    <% end %>
+
+                    <%# サムネイル %>
+                    <% if specialty.image.attached? %>
+                      <%= image_tag specialty.image.variant(resize_to_fill: [48, 48]),
+                          class: "rounded-lg object-cover flex-shrink-0",
+                          loading: "lazy",
+                          style: "width:44px;height:44px;#{ i < 3 ? 'box-shadow:0 1px 4px rgba(0,0,0,0.15);' : '' }" %>
+                    <% else %>
+                      <div class="rounded-lg flex-shrink-0 flex items-center justify-center"
+                           style="width:44px;height:44px;background-color:#f5f0eb;">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:#d4a574;">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                      </div>
+                    <% end %>
+
+                    <%# 名前・地域・♡ %>
+                    <div class="flex-1 min-w-0">
+                      <p class="font-bold truncate leading-tight mb-0.5" style="font-size:11px;color:#471e0a;"><%= specialty.name %></p>
+                      <p style="font-size:10px;color:#a89080;"><%= specialty.region.name %> &middot; ♡ <%= specialty.favorites.size %></p>
+                    </div>
+
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+
+    <%# 銘菓一覧ヘッダー + 検索フォーム %>
+    <div class="flex flex-wrap items-center gap-3 mb-4 mt-6">
+      <h2 class="text-2xl font-semibold flex-shrink-0" style="color: #471e0a;">
+        銘菓一覧
+        <span class="text-lg ml-1 font-normal" style="color: #8b7355;">(<%= @specialties.total_count %>件)</span>
+      </h2>
+      <div class="flex-1 flex justify-end">
+        <%= search_form_for @q, url: root_path, html: { class: "w-full", style: "max-width: 26rem;" } do |f| %>
+          <div class="flex items-center" style="border: 1px solid #d4a574; border-radius: 9999px; background: white; overflow: hidden;">
+            <%= f.search_field :name_cont,
+                placeholder: "銘菓名を検索...",
+                class: "flex-1 px-4 py-2 text-sm focus:outline-none",
+                style: "color: #471e0a; background: transparent; border: none; min-width: 0;" %>
+            <div style="width: 1px; height: 1.1rem; background: #d4a574; flex-shrink: 0;"></div>
+            <%= f.collection_select :region_id_eq, @regions, :id, :name,
+                { include_blank: "地域" },
+                class: "py-2 text-sm focus:outline-none",
+                style: "color: #471e0a; background: transparent; border: none; width: 6rem; padding-left: 0.5rem; padding-right: 0.25rem;" %>
+            <%= f.submit "検索",
+                class: "px-4 py-2 text-sm font-medium text-white cursor-pointer flex-shrink-0",
+                style: "background-color: #b8854a; border-radius: 0 9999px 9999px 0; white-space: nowrap; border: none;" %>
+          </div>
+          <% if params.dig(:q, :name_cont).present? || params.dig(:q, :region_id_eq).present? %>
+            <%= link_to "✕ クリア", root_path, class: "block text-xs mt-1 text-right", style: "color: #a89080;" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <%# タグフィルター中のバナー %>
+    <% if params[:tag].present? %>
+      <div class="flex items-center gap-3 mb-4 px-4 py-2.5 rounded-lg text-sm" style="background-color: #f5ece0; color: #8b7355; border: 1px solid #d4a574;">
+        <span><strong>#<%= params[:tag] %></strong> のタグが付いた銘菓</span>
+        <%= link_to root_path, class: 'ml-auto text-xs font-medium', style: 'color: #a89080;' do %>
+          ✕ クリア
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# 銘菓グリッド %>
+    <% if @specialties.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% @specialties.each do |specialty| %>
+          <%= link_to specialty_path(specialty), class: "block group" do %>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
+              
+              <%# 画像表示部分 %>
+              <div class="aspect-video w-full bg-gray-100 overflow-hidden">
+                <% if specialty.image.attached? %>
+                  <%= image_tag specialty.image.variant(resize_to_fill: [400, 300]), 
+                      alt: specialty.name, 
+                      class: 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300' %>
+                <% else %>
+                  <div class="w-full h-full flex items-center justify-center text-gray-400">
+                    <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                <% end %>
+              </div>
+
+              <%# カード内容 %>
+              <div class="p-4">
+                <h3 class="text-xl font-bold mb-2" style="color: #471e0a;">
+                  <%= specialty.name %>
+                </h3>
+                
+                <%# 地域表示 %>
+                <div class="flex items-center text-sm mb-3" style="color: #471e0a;">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                  <span><%= specialty.region.name %></span>
+                </div>
+
+                <%# 説明文 %>
+                <% if specialty.description.present? %>
+                  <p class="text-sm line-clamp-2" style="color: #471e0a;">
+                    <%= specialty.description %>
+                  </p>
+                <% end %>
+
+                <%# タグ %>
+                <% if specialty.tags.any? %>
+                  <div class="flex flex-wrap gap-1 mt-2">
+                    <% specialty.tags.each do |tag| %>
+                      <span class="inline-block px-2 py-0.5 rounded-full text-xs"
+                            style="background-color: #f5ece0; color: #8b7355; border: 1px solid #e8d5c4;">
+                        #<%= tag.name %>
+                      </span>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+
+              <%# カードフッター %>
+              <div class="px-4 pb-4">
+                <p class="text-xs" style="color: #a89080">
+                  投稿者: <%= specialty.user&.decorate&.full_name || '未設定' %>
+                </p>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <%# ページネーション %>
+      <div class="mt-8 flex justify-center">
+        <%= paginate @specialties %>
+      </div>
+      <% else %>
+      <div class="text-center py-12">
+        <div class="text-gray-400 mb-4">
+          <svg class="mx-auto w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+        </div>
+        <p class="text-gray-500 text-lg">
+          まだ銘菓が登録されていません
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>

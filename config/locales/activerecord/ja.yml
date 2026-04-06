@@ -1,0 +1,24 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      sweet: お菓子
+      specialty: 銘菓
+    attributes:
+      user:
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード確認
+        role: 権限
+      sweet:
+        name: お菓子名
+        description: 説明
+        specialty_id: 銘菓
+      specialty:
+        name: 銘菓名
+        region: 地域
+  enums:
+    user:
+      role:
+        general: 一般ユーザー
+        admin: 管理者

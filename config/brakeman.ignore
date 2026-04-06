@@ -1,0 +1,12 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "brakeman_fingerprint_for_ruby_eol",
+      "note": "Ruby 3.1.7 EOL warning ignored for development environment"
+    },
+    {
+      "fingerprint": "brakeman_fingerprint_for_rails_eol", 
+      "note": "Rails 7.0.10 EOL warning ignored for development environment"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+ja:
+  devise:
+    failure:
+      not_found_in_database: "メールアドレスまたはパスワードが違います。"
+      user:
+        not_found_in_database: "メールアドレスまたはパスワードが違います。"
+      admin_user:
+        not_found_in_database: "メールアドレスまたはパスワードが違います。"
+    sessions:
+      signed_in: "ログインしました。"
+      signed_out: "ログアウトしました。"
+      already_signed_out: "既にログアウト済みです。"
+    passwords:
+      send_instructions: "パスワードの再設定について数分以内にメールでご連絡いたします。"
+      updated: "パスワードが正しく変更されました。"

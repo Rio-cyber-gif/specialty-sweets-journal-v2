@@ -1,0 +1,191 @@
+<div class="min-h-screen" style="background-color: #f5f5f0;">
+  <div class="container mx-auto px-4 py-8" style="max-width: 56rem;">
+
+    <%# パンくずリスト %>
+    <%
+      blocks      = SpecialtiesController::REGION_BLOCKS
+      block_names = SpecialtiesController::REGION_BLOCK_NAMES
+      block_key   = blocks.find { |_k, ids| ids.include?(@specialty.region_id) }&.first
+      if block_key
+        crumb_name = block_names[block_key]
+        crumb_path = region_block_page_path(block_key)
+      else
+        crumb_name = '北海道'
+        crumb_path = region_path(1)
+      end
+    %>
+    <nav class="flex items-center flex-wrap gap-1 mb-6 text-sm" aria-label="パンくずリスト">
+      <%= link_to root_path, class: "inline-flex items-center gap-1 transition-colors", style: "color: #8b7355; text-decoration: none;" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>
+        ホーム
+      <% end %>
+      <span style="color: #d4a574; padding: 0 4px;">/</span>
+      <%= link_to crumb_name, crumb_path, style: "color: #8b7355; text-decoration: none;" %>
+      <span style="color: #d4a574; padding: 0 4px;">/</span>
+      <span class="font-medium truncate" style="color: #471e0a; max-width: 200px;"><%= @specialty.name %></span>
+    </nav>
+
+    <%# メインカード（2カラム） %>
+    <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6" style="border: 1px solid #d4a574;">
+      <div class="flex flex-col md:flex-row">
+
+        <%# 左: 画像 %>
+        <div class="md:w-2/5 flex-shrink-0 bg-gray-50" style="min-height: 280px;">
+          <% if @specialty.image.attached? %>
+            <%= image_tag @specialty.image.variant(resize_to_fill: [500, 500]),
+                alt: @specialty.name,
+                class: "w-full h-full object-cover",
+                style: "min-height: 280px; max-height: 480px;" %>
+          <% else %>
+            <div class="w-full h-full flex items-center justify-center" style="min-height: 280px; color: #d4a574;">
+              <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+          <% end %>
+        </div>
+
+        <%# 右: 情報 %>
+        <div class="flex-1 p-6 flex flex-col">
+
+          <%# タイトル + 編集・削除ボタン %>
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h1 class="text-2xl md:text-3xl font-bold font-serif leading-tight" style="color: #471e0a;">
+              <%= @specialty.name %>
+            </h1>
+            <% if user_signed_in? && @specialty.user == current_user %>
+              <div class="flex gap-2 flex-shrink-0">
+                <%= link_to edit_specialty_path(@specialty),
+                    class: "inline-flex items-center px-3 py-1.5 text-xs font-medium border rounded-md transition-colors hover:shadow-sm",
+                    style: "color: #471e0a; background-color: white; border-color: #d4a574;" do %>
+                  <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                  </svg>
+                  編集
+                <% end %>
+                <%= button_to specialty_path(@specialty), method: :delete,
+                    data: { turbo_confirm: "本当に削除しますか?\nこの操作は取り消せません。銘菓「#{@specialty.name}」を完全に削除します。" },
+                    class: "inline-flex items-center px-3 py-1.5 text-xs font-medium border rounded-md transition-colors hover:shadow-sm",
+                    style: "color: #dc2626; background-color: white; border-color: #dc2626;" do %>
+                  <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                  削除
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+
+          <%# 地域バッジ %>
+          <%= link_to region_path(@specialty.region),
+              class: "inline-flex items-center self-start px-3 py-1 rounded-full text-xs font-medium mb-3",
+              style: "background-color: #f5f5f0; color: #471e0a; border: 1px solid #d4a574;" do %>
+            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <%= @specialty.region.name %>
+          <% end %>
+
+          <%# タグ %>
+          <% if @specialty.tags.any? %>
+            <div class="flex flex-wrap gap-1 mb-4">
+              <% @specialty.tags.each do |tag| %>
+                <%= link_to specialties_path(tag: tag.name),
+                    class: "inline-flex items-center px-2 py-0.5 rounded-full text-xs",
+                    style: "background-color: #f5ece0; color: #8b7355; border: 1px solid #d4a574;" do %>
+                  #<%= tag.name %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <%# 説明 %>
+          <% if @specialty.description.present? %>
+            <div class="flex-1 mb-4">
+              <h2 class="text-sm font-semibold mb-1.5 font-serif" style="color: #8b7355;">説明</h2>
+              <p class="text-sm whitespace-pre-wrap leading-relaxed" style="color: #471e0a;"><%= @specialty.description %></p>
+            </div>
+          <% end %>
+
+          <%# お気に入りボタン %>
+          <div class="mb-4">
+            <%= render 'favorites/button', specialty: @specialty %>
+          </div>
+
+          <%# 投稿者・投稿日 %>
+          <div class="pt-4 border-t text-xs flex flex-wrap gap-3" style="border-color: #e8d5c4; color: #8b7355;">
+            <span class="flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+              投稿者: <%= @specialty.user.name %>
+            </span>
+            <span class="flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              <%= l @specialty.created_at, format: :long %>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <%# コメントセクション %>
+    <div class="bg-white rounded-xl shadow-sm p-6" style="border: 1px solid #e8d5c4;">
+      <h3 class="text-lg font-semibold font-serif mb-4" style="color: #471e0a;">
+        コメント (<%= @comments.count %>)
+      </h3>
+      <% if user_signed_in? %>
+        <%= render 'comments/form', specialty: @specialty, comment: @comment %>
+      <% else %>
+        <p class="text-sm mb-4" style="color: #8b7355;">
+          <%= link_to 'ログイン', new_user_session_path, style: "color: #d4a574;" %>してコメントを投稿しましょう
+        </p>
+      <% end %>
+      <div id="comments_list" class="mt-5">
+        <% if @comments.present? %>
+          <%= render @comments, specialty: @specialty %>
+        <% else %>
+          <p class="text-sm" style="color: #a89080;">まだコメントはありません。最初のコメントを投稿してみましょう。</p>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%# 同じ地域の銘菓 %>
+<% if @related_specialties.any? %>
+  <div class="container mx-auto px-4 pb-12" style="max-width: 56rem;">
+    <section class="mt-6">
+      <h2 class="text-base font-semibold font-serif mb-3" style="color: #471e0a;">
+        <%= @specialty.region.name %>の他の銘菓
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <% @related_specialties.each do |specialty| %>
+          <%= link_to specialty_path(specialty), class: "block group" do %>
+            <div class="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-shadow" style="border-color: #e8d5c4;">
+              <% if specialty.image.attached? %>
+                <%= image_tag specialty.image.variant(resize_to_fill: [400, 240]),
+                    class: "w-full object-cover", style: "height: 110px;" %>
+              <% else %>
+                <div class="w-full flex items-center justify-center" style="height: 110px; background-color: #f5f0eb;">
+                  <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                </div>
+              <% end %>
+              <div class="px-3 py-2">
+                <p class="text-sm font-bold truncate mb-0.5" style="color: #471e0a;"><%= specialty.name %></p>
+                <span class="text-xs" style="color: #a89080;">♡ <%= specialty.favorites.size %></span>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </section>
+  </div>
+<% end %>

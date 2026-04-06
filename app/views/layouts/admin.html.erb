@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>管理画面 - 銘菓旅手帖</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  </head>
+
+  <body style="margin: 0; background-color: #f5f5f0; font-family: system-ui, sans-serif;">
+
+    <%# サイドバー + メインの2カラムレイアウト %>
+    <div style="display: flex; min-height: 100vh;">
+
+      <%# サイドバー %>
+      <aside style="width: 240px; min-width: 240px; background-color: #2c1a0e; display: flex; flex-direction: column;">
+        <%# ロゴ %>
+        <div style="padding: 1.5rem 1.25rem; border-bottom: 1px solid #471e0a;">
+          <p style="margin: 0; font-size: 0.7rem; letter-spacing: 0.1em; color: #d4a574; text-transform: uppercase;">Admin Panel</p>
+          <p style="margin: 0.25rem 0 0; font-size: 1.1rem; font-weight: bold; color: #f5f5f0; font-family: serif;">銘菓旅手帖</p>
+        </div>
+
+        <%# ナビゲーション %>
+        <nav style="padding: 1rem 0; flex: 1;">
+          <%= link_to admin_root_path,
+              style: "display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; color: #d4a574; text-decoration: none; font-size: 0.875rem; transition: background 0.15s;" do %>
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            ダッシュボード
+          <% end %>
+
+          <%= link_to admin_users_path,
+              style: "display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; color: #a89080; text-decoration: none; font-size: 0.875rem; transition: background 0.15s;" do %>
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            ユーザー管理
+          <% end %>
+
+          <%= link_to admin_sweets_path,
+              style: "display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; color: #a89080; text-decoration: none; font-size: 0.875rem; transition: background 0.15s;" do %>
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            お菓子管理
+          <% end %>
+        </nav>
+
+        <%# フッター %>
+        <div style="padding: 1rem 1.25rem; border-top: 1px solid #471e0a;">
+          <%= link_to root_path,
+              style: "display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; color: #a89080; text-decoration: none; font-size: 0.8rem;" do %>
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            サイトへ戻る
+          <% end %>
+          <%= button_to destroy_user_session_path, method: :delete,
+              style: "display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; color: #a89080; background: none; border: none; cursor: pointer; font-size: 0.8rem; font-family: inherit; width: 100%;" do %>
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            ログアウト
+          <% end %>
+        </div>
+      </aside>
+
+      <%# メインコンテンツ %>
+      <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
+
+        <%# トップバー %>
+        <header style="background-color: white; border-bottom: 1px solid #e8d5c4; padding: 0 2rem; height: 60px; display: flex; align-items: center; justify-content: space-between;">
+          <h2 style="margin: 0; font-size: 1rem; font-weight: 600; color: #471e0a; font-family: serif;"><%= content_for?(:page_title) ? yield(:page_title) : 'ダッシュボード' %></h2>
+          <span style="font-size: 0.8rem; color: #a89080;"><%= current_user.name %> (<%= current_user.email %>)</span>
+        </header>
+
+        <%# コンテンツ %>
+        <main style="flex: 1; padding: 2rem; overflow-y: auto;">
+          <% if notice %>
+            <div style="background-color: #d4edda; color: #155724; padding: 0.75rem 1rem; margin-bottom: 1.5rem; border-radius: 6px; font-size: 0.875rem;">
+              <%= notice %>
+            </div>
+          <% end %>
+          <% if alert %>
+            <div style="background-color: #f8d7da; color: #721c24; padding: 0.75rem 1rem; margin-bottom: 1.5rem; border-radius: 6px; font-size: 0.875rem;">
+              <%= alert %>
+            </div>
+          <% end %>
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

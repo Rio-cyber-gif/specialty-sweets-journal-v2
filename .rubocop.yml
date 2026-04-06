@@ -1,0 +1,25 @@
+# 基本的なRails用RuboCop設定
+require:
+  - rubocop-rails
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.1
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'vendor/**/*'
+    - 'bin/**/*'
+    - 'node_modules/**/*'
+
+# カスタムルール（元の設定を維持）
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+# 学習段階での設定最適化
+Style/Documentation:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+
+Rails/I18nLocaleTexts:
+  Enabled: false  # 国際化対応を一時的に無効化
