@@ -10,7 +10,7 @@ gem 'concurrent-ruby', '1.3.4'
 gem 'image_processing', '~> 1.2' # Active Storage用（既存）
 gem 'importmap-rails'
 gem 'jbuilder'
-gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.6'
 gem 'puma', '~> 6.0'
 gem 'rails', '~> 7.2.0'
 gem 'redis', '>= 4.0.1'
