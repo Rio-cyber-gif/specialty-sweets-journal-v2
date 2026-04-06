@@ -7,51 +7,31 @@ class SpecialtiesController < ApplicationController
 
   # 地方ブロックと都道府県IDの対応（地図SVGから渡されるパラメータ）
   REGION_BLOCKS = {
-    'tohoku'  => [2, 3, 4, 5, 6, 7],
-    'kanto'   => [8, 9, 10, 11, 12, 13, 14],
-    'chubu'   => [15, 16, 17, 18, 19, 20, 21, 22, 23],
-    'kinki'   => [24, 25, 26, 27, 28, 29, 30],
+    'tohoku' => [2, 3, 4, 5, 6, 7],
+    'kanto' => [8, 9, 10, 11, 12, 13, 14],
+    'chubu' => [15, 16, 17, 18, 19, 20, 21, 22, 23],
+    'kinki' => [24, 25, 26, 27, 28, 29, 30],
     'chugoku' => [31, 32, 33, 34, 35],
     'shikoku' => [36, 37, 38, 39],
-    'kyushu'  => [40, 41, 42, 43, 44, 45, 46, 47]
+    'kyushu' => [40, 41, 42, 43, 44, 45, 46, 47]
   }.freeze
 
   # 地方ブロック名（表示用）
   REGION_BLOCK_NAMES = {
-    'tohoku'  => '東北',
-    'kanto'   => '関東',
-    'chubu'   => '中部',
-    'kinki'   => '近畿',
+    'tohoku' => '東北',
+    'kanto' => '関東',
+    'chubu' => '中部',
+    'kinki' => '近畿',
     'chugoku' => '中国',
     'shikoku' => '四国',
-    'kyushu'  => '九州・沖縄'
+    'kyushu' => '九州・沖縄'
   }.freeze
 
   # 一覧表示
   def index
-    @q = Specialty.ransack(params[:q])
-    base = @q.result
-
-    # 地方ブロックフィルター（地図SVGからのパラメータ、Ransackを使わずwhere）
-    if params[:region_block].present? && REGION_BLOCKS.key?(params[:region_block])
-      base = base.where(region_id: REGION_BLOCKS[params[:region_block]])
-      @region_block_name = REGION_BLOCK_NAMES[params[:region_block]]
-    end
-
-    @specialties = case params[:sort]
-                   when 'popular'
-                     base.left_joins(:favorites).group('specialties.id').order('COUNT(favorites.id) DESC')
-                   when 'comments'
-                     base.left_joins(:comments).group('specialties.id').order('COUNT(comments.id) DESC')
-                   else
-                     base.distinct.order(created_at: :desc)
-                   end
-
-    @specialties = @specialties
-                     .includes(:user, :region, :favorites, :tags)
-                     .page(params[:page])
-    @specialties = @specialties.joins(:tags).where(tags: { name: params[:tag].downcase.strip }) if params[:tag].present?
-    @regions = Region.order(:name)
+    @q           = Specialty.ransack(params[:q])
+    @specialties = sorted_specialties(filtered_base)
+    @regions     = Region.order(:name)
   end
 
   # 詳細表示
@@ -103,7 +83,34 @@ class SpecialtiesController < ApplicationController
     redirect_to root_path, danger: '銘菓を削除しました'
   end
 
+  SORT_SCOPES = {
+    'popular' => ->(b) { b.left_joins(:favorites).group('specialties.id').order('COUNT(favorites.id) DESC') },
+    'comments' => ->(b) { b.left_joins(:comments).group('specialties.id').order('COUNT(comments.id) DESC') }
+  }.freeze
+
   private
+
+  def filtered_base
+    base = @q.result
+    return base unless params[:region_block].present? && REGION_BLOCKS.key?(params[:region_block])
+
+    @region_block_name = REGION_BLOCK_NAMES[params[:region_block]]
+    base.where(region_id: REGION_BLOCKS[params[:region_block]])
+  end
+
+  def sorted_specialties(base)
+    apply_tag_filter(apply_sort(base).includes(:user, :region, :favorites, :tags).page(params[:page]))
+  end
+
+  def apply_sort(base)
+    SORT_SCOPES.fetch(params[:sort], ->(b) { b.distinct.order(created_at: :desc) }).call(base)
+  end
+
+  def apply_tag_filter(scope)
+    return scope.joins(:tags).where(tags: { name: params[:tag].downcase.strip }) if params[:tag].present?
+
+    scope
+  end
 
   # パラメータの許可
   def specialty_params

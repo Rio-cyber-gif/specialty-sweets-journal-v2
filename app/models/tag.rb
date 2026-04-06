@@ -7,7 +7,7 @@ class Tag < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 50 }
   before_save { self.name = name.downcase.strip }
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     %w[name]
   end
 end

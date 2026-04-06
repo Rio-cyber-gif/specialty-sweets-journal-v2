@@ -19,9 +19,9 @@ RSpec.describe 'Favorites', type: :request do
       before { sign_in user }
 
       it 'お気に入りが作成されること' do
-        expect {
+        expect do
           post specialty_favorite_path(specialty)
-        }.to change(Favorite, :count).by(1)
+        end.to change(Favorite, :count).by(1)
       end
 
       it '作成されたお気に入りのuserが現在のユーザーであること' do
@@ -31,9 +31,9 @@ RSpec.describe 'Favorites', type: :request do
 
       it '同一specialtyへの重複登録はできないこと' do
         create(:favorite, user: user, specialty: specialty)
-        expect {
+        expect do
           post specialty_favorite_path(specialty)
-        }.not_to change(Favorite, :count)
+        end.not_to change(Favorite, :count)
       end
     end
   end
@@ -52,9 +52,9 @@ RSpec.describe 'Favorites', type: :request do
       before { sign_in user }
 
       it 'お気に入りが削除されること' do
-        expect {
+        expect do
           delete specialty_favorite_path(specialty)
-        }.to change(Favorite, :count).by(-1)
+        end.to change(Favorite, :count).by(-1)
       end
     end
 
@@ -63,9 +63,9 @@ RSpec.describe 'Favorites', type: :request do
 
       it '他人のお気に入りを削除できないこと（お気に入りが残っていること）' do
         # current_user.favorites.find_by!(specialty: @specialty) でエラーになるため削除されない
-        expect {
+        expect do
           delete specialty_favorite_path(specialty)
-        }.not_to change(Favorite, :count)
+        end.not_to change(Favorite, :count)
       end
 
       it 'エラーとしてリダイレクトされること' do
