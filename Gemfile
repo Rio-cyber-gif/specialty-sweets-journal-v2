@@ -23,7 +23,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # specialty-sweets-journal用機能gem
 gem 'devise'
 gem 'devise-i18n'
-gem 'draper', '4.0.2'
+gem 'draper', '4.0.6'
 gem 'rails-i18n', '~> 7.0.0'
 # gem 'carrierwave', '~> 2.2'
 gem 'bootstrap', '~> 5.2'
