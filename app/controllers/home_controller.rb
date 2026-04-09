@@ -6,7 +6,8 @@ class HomeController < ApplicationController
     @specialties  = filtered_specialties
     @regions      = Region.order(:name)
     @popular_specialties = popular_specialties
-    @block_counts = block_counts
+    @recent_activities   = recent_activities
+    @block_counts        = block_counts
   end
 
   private
@@ -26,8 +27,22 @@ class HomeController < ApplicationController
     Specialty.left_joins(:favorites)
              .group(:id)
              .order('COUNT(favorites.id) DESC')
-             .limit(10)
+             .limit(5)
              .includes(:region)
+  end
+
+  def recent_activities
+    posts = Specialty.includes(:region, :user)
+                     .order(created_at: :desc)
+                     .limit(5)
+                     .map { |s| { type: :post, record: s, created_at: s.created_at } }
+
+    comments = Comment.includes(:user, specialty: :region)
+                      .order(created_at: :desc)
+                      .limit(5)
+                      .map { |c| { type: :comment, record: c, created_at: c.created_at } }
+
+    (posts + comments).sort_by { |a| -a[:created_at].to_i }.first(5)
   end
 
   def block_counts
