@@ -32,17 +32,21 @@ class HomeController < ApplicationController
   end
 
   def recent_activities
-    posts = Specialty.includes(:region, :user)
-                     .order(created_at: :desc)
-                     .limit(5)
-                     .map { |s| { type: :post, record: s, created_at: s.created_at } }
+    (recent_posts + recent_comments).sort_by { |a| -a[:created_at].to_i }.first(5)
+  end
 
-    comments = Comment.includes(:user, specialty: :region)
-                      .order(created_at: :desc)
-                      .limit(5)
-                      .map { |c| { type: :comment, record: c, created_at: c.created_at } }
+  def recent_posts
+    Specialty.includes(:region, :user)
+             .order(created_at: :desc)
+             .limit(5)
+             .map { |s| { type: :post, record: s, created_at: s.created_at } }
+  end
 
-    (posts + comments).sort_by { |a| -a[:created_at].to_i }.first(5)
+  def recent_comments
+    Comment.includes(:user, specialty: :region)
+           .order(created_at: :desc)
+           .limit(5)
+           .map { |c| { type: :comment, record: c, created_at: c.created_at } }
   end
 
   def block_counts
