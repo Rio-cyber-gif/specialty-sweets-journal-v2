@@ -157,9 +157,21 @@
     <%# 同じ地域の銘菓 %>
     <% if @related_specialties.any? %>
       <section class="mt-24 pb-6">
-        <h2 class="text-base font-semibold font-serif mb-3" style="color: #471e0a;">
-          <%= @specialty.region.name %>の他の銘菓
-        </h2>
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-base font-semibold font-serif" style="color: #471e0a;">
+            <%= @specialty.region.name %>の他の銘菓
+          </h2>
+          <% if @related_specialties_count > 3 %>
+            <%= link_to region_path(@specialty.region),
+                class: "text-xs font-medium flex items-center gap-1 transition-colors",
+                style: "color: #b8854a;" do %>
+              もっと見る
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            <% end %>
+          <% end %>
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <% @related_specialties.each do |specialty| %>
             <%= link_to specialty_path(specialty), class: "block group" do %>

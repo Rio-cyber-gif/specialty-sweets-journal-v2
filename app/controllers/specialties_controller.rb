@@ -22,11 +22,11 @@ class SpecialtiesController < ApplicationController
   def show
     @comment = Comment.new
     @comments = @specialty.comments.includes(:user).order(created_at: :desc)
-    @related_specialties = @specialty.region.specialties
-                                     .where.not(id: @specialty.id)
-                                     .includes(:favorites)
-                                     .order(created_at: :desc)
-                                     .limit(3)
+    related_base = @specialty.region.specialties
+                             .where.not(id: @specialty.id)
+                             .order(created_at: :desc)
+    @related_specialties_count = related_base.count
+    @related_specialties = related_base.includes(:favorites).limit(3)
   end
 
   # 新規作成フォーム
