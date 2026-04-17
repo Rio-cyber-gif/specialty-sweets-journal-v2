@@ -363,6 +363,13 @@
                     </svg>
                   </div>
                 <% end %>
+                <%# 新着投稿バッジ（24時間以内） %>
+                <% if specialty.created_at > 24.hours.ago %>
+                  <span class="absolute top-2 left-2 flex items-center gap-1 px-3 py-1 rounded-full text-sm font-bold shadow-md"
+                        style="background-color: #7aad60; color: white; letter-spacing: 0.05em;">
+                    ✨ 新着投稿
+                  </span>
+                <% end %>
                 <%# 新着コメントバッジ（24時間以内） %>
                 <% if @recent_commented_ids.include?(specialty.id) %>
                   <span class="absolute top-2 right-2 flex items-center gap-1 px-3 py-1 rounded-full text-sm font-bold shadow-md"
