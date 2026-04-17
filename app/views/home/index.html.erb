@@ -1,4 +1,4 @@
-<div class="bg-gradient-to-b from-amber-50/30 to-background min-h-screen" style="background-color: #f5f5f0;">
+<div class="min-h-screen" style="background-color: #f5f5f0;">
   <div class="container mx-auto px-4 py-12">
     <%# Hero Section %>
     <div class="text-center mb-12">
@@ -348,13 +348,13 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <% @specialties.each do |specialty| %>
           <%= link_to specialty_path(specialty), class: "block group" do %>
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
               
               <%# 画像表示部分 %>
-              <div class="aspect-video w-full bg-gray-100 overflow-hidden">
+              <div class="aspect-video w-full bg-gray-100 overflow-hidden relative">
                 <% if specialty.image.attached? %>
-                  <%= image_tag specialty.image.variant(resize_to_fill: [400, 300]), 
-                      alt: specialty.name, 
+                  <%= image_tag specialty.image.variant(resize_to_fill: [400, 300]),
+                      alt: specialty.name,
                       class: 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300' %>
                 <% else %>
                   <div class="w-full h-full flex items-center justify-center text-gray-400">
@@ -363,10 +363,20 @@
                     </svg>
                   </div>
                 <% end %>
+                <%# 新着コメントバッジ（24時間以内） %>
+                <% if @recent_commented_ids.include?(specialty.id) %>
+                  <span class="absolute top-2 right-2 flex items-center gap-1 px-3 py-1 rounded-full text-sm font-bold shadow-md"
+                        style="background-color: #f07840; color: white; letter-spacing: 0.05em;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    NEW
+                  </span>
+                <% end %>
               </div>
 
               <%# カード内容 %>
-              <div class="p-4">
+              <div class="p-4 flex-1">
                 <h3 class="text-xl font-bold mb-2" style="color: #471e0a;">
                   <%= specialty.name %>
                 </h3>
@@ -401,10 +411,21 @@
               </div>
 
               <%# カードフッター %>
-              <div class="px-4 pb-4">
-                <p class="text-xs" style="color: #a89080">
+              <div class="px-4 pb-4 flex items-center justify-between">
+                <p class="text-xs" style="color: #a89080;">
                   投稿者: <%= specialty.user&.decorate&.full_name || '未設定' %>
                 </p>
+                <div class="flex items-center gap-3">
+                  <span class="flex items-center gap-1 font-semibold text-sm" style="color: #e07090;">
+                    ♡ <%= specialty.favorites.size %>
+                  </span>
+                  <span class="flex items-center gap-1 font-semibold text-sm" style="color: #f07840;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    <%= specialty.comments.size %>
+                  </span>
+                </div>
               </div>
             </div>
           <% end %>

@@ -12,6 +12,10 @@ class SpecialtiesController < ApplicationController
     @q           = Specialty.ransack(params[:q])
     @specialties = sorted_specialties(filtered_base)
     @regions     = Region.order(:name)
+    @recent_commented_ids = Comment.where('created_at > ?', 24.hours.ago)
+                                   .distinct
+                                   .pluck(:specialty_id)
+                                   .to_set
   end
 
   # 詳細表示
@@ -80,7 +84,7 @@ class SpecialtiesController < ApplicationController
   end
 
   def sorted_specialties(base)
-    apply_tag_filter(apply_sort(base).includes(:user, :region, :favorites, :tags).page(params[:page]))
+    apply_tag_filter(apply_sort(base).includes(:user, :region, :favorites, :tags, :comments).page(params[:page]))
   end
 
   def apply_sort(base)

@@ -8,13 +8,17 @@ class HomeController < ApplicationController
     @popular_specialties = popular_specialties
     @recent_activities   = recent_activities
     @block_counts        = block_counts
+    @recent_commented_ids = Comment.where('created_at > ?', 24.hours.ago)
+                                   .distinct
+                                   .pluck(:specialty_id)
+                                   .to_set
   end
 
   private
 
   def filtered_specialties
     scope = @q.result(distinct: true)
-              .includes(:user, :region, :tags)
+              .includes(:user, :region, :tags, :favorites, :comments)
               .order(created_at: :desc)
               .page(params[:page])
               .per(6)

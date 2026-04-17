@@ -71,21 +71,33 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <% @specialties.each do |specialty| %>
         <%= link_to specialty_path(specialty), class: 'block group' do %>
-          <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 h-full border overflow-hidden" 
+          <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 h-full border overflow-hidden"
                style="border-color: #e8d5c4;">
-            
-            <%# 画像部分 %>
-            <% if specialty.image.attached? %>
-              <%= image_tag specialty.image.variant(resize_to_fill: [400, 300]),
-                  class: 'w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300',
-                  loading: 'lazy' %>
-            <% else %>
-              <div class="w-full h-48 flex items-center justify-center" style="background-color: #f5f0eb;">
-                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-              </div>
-            <% end %>
+
+            <%# 画像部分（バッジ重ねるため relative） %>
+            <div class="relative">
+              <% if specialty.image.attached? %>
+                <%= image_tag specialty.image.variant(resize_to_fill: [400, 300]),
+                    class: 'w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300',
+                    loading: 'lazy' %>
+              <% else %>
+                <div class="w-full h-48 flex items-center justify-center" style="background-color: #f5f0eb;">
+                  <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+              <% end %>
+              <%# 新着コメントバッジ（24時間以内にコメントがあった場合） %>
+              <% if @recent_commented_ids.include?(specialty.id) %>
+                <span class="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold shadow"
+                      style="background-color: #f07840; color: white;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  NEW
+                </span>
+              <% end %>
+            </div>
 
             <%# カード本体 %>
             <div class="p-4">
@@ -129,7 +141,15 @@
               <p class="text-xs" style="color: #a89080;">
                 投稿者: <%= specialty.user&.decorate&.full_name || '未設定' %>
               </p>
-              <span class="text-xs" style="color: #a89080;">♡ <%= specialty.favorites.size %></span>
+              <div class="flex items-center gap-3 text-xs" style="color: #a89080;">
+                <span>♡ <%= specialty.favorites.size %></span>
+                <span class="flex items-center gap-0.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  <%= specialty.comments.size %>
+                </span>
+              </div>
             </div>
           </div>
         <% end %>
