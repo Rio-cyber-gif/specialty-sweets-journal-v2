@@ -48,22 +48,12 @@
 
           <!-- 地域 -->
           <div class="space-y-2">
-            <%= f.label :region, '地域 *', class: 'block text-sm font-medium font-serif', style: 'color: #471e0a;' %>
-            <% if defined?(Region) && Region.any? %>
-              <%= f.collection_select :region_id, 
-                                       Region.order(:name), 
-                                       :id, 
-                                       :name, 
-                                       { prompt: '地域を選択してください' }, 
-                                       { class: 'w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 transition-all', 
-                                         style: 'border-color: #d4a574; color: #471e0a;' } %>
-            <% else %>
-              <%= f.text_field :region, 
-                               class: 'w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 transition-all', 
-                               style: 'border-color: #d4a574; color: #471e0a;',
-                               placeholder: '例: 京都府',
-                               required: true %>
-            <% end %>
+            <%= f.label :region_id, '地域 *', class: 'block text-sm font-medium font-serif', style: 'color: #471e0a;' %>
+            <%= f.select :region_id,
+                         grouped_options_for_select(@grouped_regions, @specialty.region_id),
+                         { prompt: '地域を選択してください' },
+                         { class: 'w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 transition-all',
+                           style: 'border-color: #d4a574; color: #471e0a;' } %>
           </div>
 
           <!-- 説明 -->
