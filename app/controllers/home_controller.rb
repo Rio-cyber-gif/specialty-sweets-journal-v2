@@ -18,7 +18,7 @@ class HomeController < ApplicationController
 
   def filtered_specialties
     scope = @q.result(distinct: true)
-              .includes(:user, :region, :tags, :favorites, :comments)
+              .includes({ user: { avatar_attachment: :blob } }, :region, :tags, :favorites, :comments)
               .order(created_at: :desc)
               .page(params[:page])
               .per(6)
