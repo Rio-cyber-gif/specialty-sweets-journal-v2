@@ -84,7 +84,7 @@ class SpecialtiesController < ApplicationController
   end
 
   def sorted_specialties(base)
-    apply_tag_filter(apply_sort(base).includes(:user, :region, :favorites, :tags, :comments).page(params[:page]))
+    apply_tag_filter(apply_sort(base).includes({ user: { avatar_attachment: :blob } }, :region, :favorites, :tags, :comments).page(params[:page]))
   end
 
   def apply_sort(base)
