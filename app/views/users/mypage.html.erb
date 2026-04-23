@@ -176,5 +176,22 @@
       <% end %>
     </section>
 
+    <% unless current_user.admin? %>
+      <%# 危険ゾーン: アカウント削除 %>
+      <div class="mt-12 border rounded-xl p-6" style="border-color: #dc2626; background-color: #fff5f5;">
+        <h2 class="text-base font-semibold mb-1" style="color: #dc2626;">危険ゾーン</h2>
+        <p class="text-sm mb-4" style="color: #6b5744;">
+          アカウントを削除すると、投稿した銘菓・コメント・お気に入りがすべて削除されます。この操作は取り消せません。
+        </p>
+        <%= button_to user_registration_path,
+            method: :delete,
+            data: { turbo_confirm: "本当にアカウントを削除しますか？\n投稿・コメント・お気に入りがすべて削除されます。この操作は取り消せません。" },
+            class: "px-4 py-2 text-sm font-medium text-white rounded-md border-0 cursor-pointer",
+            style: "background-color: #dc2626;" do %>
+          アカウントを削除する
+        <% end %>
+      </div>
+    <% end %>
+
   </div>
 </div>
