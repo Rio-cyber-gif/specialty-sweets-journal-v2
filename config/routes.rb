@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   namespace :admin do
-    root 'dashboard#index'  # 管理画面のトップページ
-    resources :users, only: [:index, :edit, :update, :destroy]
-    resources :specialties, only: [:index, :edit, :update, :destroy]
+    root 'dashboard#index' # 管理画面のトップページ
+    resources :users, only: %i[index edit update destroy]
+    resources :specialties, only: %i[index edit update destroy]
   end
   # Devise（ユーザー認証）
-  devise_for :users
-  
+  devise_for :users, controllers: { registrations: 'users/registrations' }
+
   # ルートページ
   root 'home#index'
-  
+
   # Specialties（銘菓）の全アクション
   resources :specialties do
     resources :comments, only: %i[create destroy]
@@ -29,10 +31,10 @@ Rails.application.routes.draw do
   get 'terms', to: 'pages#terms'
   get 'privacy', to: 'pages#privacy'
   get 'guide', to: 'pages#guide', as: :guide
-  
+
   # ヘルスチェック（本番環境で必要な場合）
   # get "up" => "rails/health#show", as: :rails_health_check
-  
+
   # PWA機能（Progressive Web App用）
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

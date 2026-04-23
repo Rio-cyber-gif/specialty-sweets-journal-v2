@@ -19,8 +19,38 @@
 
       <!-- カードコンテンツ -->
       <div class="px-6 pt-2 pb-6">
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-4", novalidate: true }) do |f| %>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
+              html: { class: "space-y-4", novalidate: true, enctype: "multipart/form-data" }) do |f| %>
           <%= render "devise/shared/error_messages", resource: resource %>
+
+          <!-- アイコン画像（任意） -->
+          <div class="space-y-2">
+            <%= f.label :avatar, "アイコン画像（任意）", class: "block text-sm font-medium", style: "color: #8b7355;" %>
+            <div class="flex flex-col items-center gap-3">
+              <div id="avatar_preview_wrapper" style="display: none;">
+                <img id="avatar_preview" src="" alt="プレビュー"
+                     class="rounded-full object-cover border-2"
+                     style="width: 72px; height: 72px; border-color: #d4a574;">
+              </div>
+              <%= f.file_field :avatar, accept: "image/*", id: "avatar_input",
+                  class: "w-full text-xs",
+                  style: "color: #8b7355;" %>
+            </div>
+            <script>
+              document.getElementById('avatar_input').addEventListener('change', function(e) {
+                var file = e.target.files[0];
+                var wrapper = document.getElementById('avatar_preview_wrapper');
+                var preview = document.getElementById('avatar_preview');
+                if (file && file.type.startsWith('image/')) {
+                  preview.src = URL.createObjectURL(file);
+                  wrapper.style.display = 'block';
+                } else {
+                  wrapper.style.display = 'none';
+                  preview.src = '';
+                }
+              });
+            </script>
+          </div>
 
           <!-- お名前 -->
           <div class="space-y-2">
