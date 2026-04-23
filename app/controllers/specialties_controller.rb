@@ -21,7 +21,9 @@ class SpecialtiesController < ApplicationController
   # 詳細表示
   def show
     @comment = Comment.new
-    @comments = @specialty.comments.includes(:user).order(created_at: :desc)
+    @comments = @specialty.comments
+                          .includes(user: { avatar_attachment: :blob })
+                          .order(created_at: :desc)
     related_base = @specialty.region.specialties
                              .where.not(id: @specialty.id)
                              .order(created_at: :desc)
