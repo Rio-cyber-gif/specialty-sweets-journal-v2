@@ -56,6 +56,7 @@ class SpecialtiesController < ApplicationController
 
   # 更新処理
   def update
+    @specialty.image.purge if params[:specialty][:remove_image] == '1' && @specialty.image.attached?
     if @specialty.update(specialty_params)
       redirect_to @specialty, success: '銘菓を更新しました'
     else
@@ -104,7 +105,7 @@ class SpecialtiesController < ApplicationController
 
   # パラメータの許可
   def specialty_params
-    params.require(:specialty).permit(:name, :region_id, :description, :image, :tag_list)
+    params.require(:specialty).permit(:name, :region_id, :description, :image, :tag_list, :remove_image)
   end
 
   # 銘菓の取得

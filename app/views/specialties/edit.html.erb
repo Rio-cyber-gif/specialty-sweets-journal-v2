@@ -83,6 +83,11 @@
               <% rescue ActiveStorage::InvariableError, ActiveStorage::FileNotFoundError => e %>
                 <p class="text-sm text-red-500">画像の表示に失敗しました</p>
               <% end %>
+              <%# 画像削除チェックボックス %>
+              <div class="mt-2 flex items-center gap-2">
+                <%= f.check_box :remove_image, { class: "w-4 h-4 cursor-pointer", style: "accent-color: #dc2626;" }, "1", "0" %>
+                <%= f.label :remove_image, "現在の画像を削除する", class: "text-sm cursor-pointer", style: "color: #dc2626;" %>
+              </div>
             <% else %>
               <p class="text-sm mb-2" id="image_label_text" style="display: none; color: #6b5744;">選択した画像のプレビュー:</p>
               <img id="image_preview" src="" alt="プレビュー"
