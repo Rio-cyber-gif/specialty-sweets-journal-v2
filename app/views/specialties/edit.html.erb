@@ -112,10 +112,12 @@
         <div class="flex gap-4 pt-4">
           <%= f.submit "下書き保存", name: "draft",
               class: "flex-1 px-6 py-3 rounded-md transition-all font-medium cursor-pointer hover:shadow-lg",
-              style: "color: #8b7355; background-color: white; border: 2px solid #8b7355;" %>
+              style: "color: #8b7355; background-color: white; border: 2px solid #8b7355;",
+              data: { turbo_submits_with: "保存中..." } %>
           <%= f.submit "更新・公開する",
               class: "flex-1 px-6 py-3 rounded-md transition-all font-medium cursor-pointer text-white hover:shadow-lg",
-              style: "background-color: #471e0a;" %>
+              style: "background-color: #471e0a;",
+              data: { turbo_submits_with: "更新中..." } %>
           <%= link_to "キャンセル", specialty_path(@specialty),
               class: "flex-1 px-6 py-3 rounded-md transition-all font-medium text-center border-2 hover:shadow-lg",
               style: "color: #471e0a; background-color: white; border-color: #d4a574;" %>

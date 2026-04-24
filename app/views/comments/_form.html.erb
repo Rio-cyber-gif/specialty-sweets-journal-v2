@@ -18,7 +18,8 @@
           style: "border-color: #d4a574; color: #471e0a;" %>
       <%= f.submit "コメントを投稿",
           class: "px-4 py-2 text-sm font-medium text-white rounded-md cursor-pointer",
-          style: "background-color: #8b5e3c;" %>
+          style: "background-color: #8b5e3c;",
+          data: { turbo_submits_with: "投稿中..." } %>
     </div>
   <% end %>
 </div>
