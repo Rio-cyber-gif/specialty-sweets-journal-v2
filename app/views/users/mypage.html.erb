@@ -53,11 +53,22 @@
         自分の投稿
         <span class="text-base font-normal ml-2" style="color: #8b7355;">(<%= @my_specialties.total_count %>件)</span>
       </h2>
+      <% draft_count = @my_specialties.select(&:draft?).size %>
+      <% if draft_count > 0 %>
+        <p class="text-xs mb-4 px-3 py-1.5 rounded-md inline-block" style="background-color: #f5f0eb; color: #8b7355; border: 1px solid #d4a574;">
+          下書き <%= draft_count %>件 含む
+        </p>
+      <% end %>
 
       <% if @my_specialties.present? %>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <% @my_specialties.each do |specialty| %>
             <div class="bg-white rounded-xl shadow-sm border overflow-hidden" style="border-color: #e8d5c4;">
+              <% if specialty.draft? %>
+                <div class="px-3 py-1 text-xs font-medium text-center" style="background-color: #f5f0eb; color: #8b7355; border-bottom: 1px solid #e8d5c4;">
+                  下書き
+                </div>
+              <% end %>
               <%# 画像 %>
               <%= link_to specialty_path(specialty) do %>
                 <% if specialty.image.attached? %>

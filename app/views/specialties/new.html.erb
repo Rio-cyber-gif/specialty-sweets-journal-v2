@@ -115,12 +115,15 @@
           </script>
           <!-- 送信ボタン -->
           <div class="flex gap-3 pt-4">
-            <%= link_to 'キャンセル', 
-                        root_path, 
-                        class: 'flex-1 px-4 py-3 border rounded-md text-center font-medium transition-colors hover:shadow-md', 
+            <%= link_to 'キャンセル',
+                        root_path,
+                        class: 'flex-1 px-4 py-3 border rounded-md text-center font-medium transition-colors hover:shadow-md',
                         style: 'color: #471e0a; background-color: white; border-color: #d4a574;' %>
-            <%= f.submit '投稿する', 
-                         class: 'flex-1 px-4 py-3 border rounded-md text-center font-medium transition-colors hover:shadow-md', 
+            <%= f.submit '下書き保存', name: 'draft',
+                         class: 'flex-1 px-4 py-3 border rounded-md text-center font-medium transition-colors hover:shadow-md',
+                         style: 'color: #8b7355; background-color: white; border-color: #8b7355;' %>
+            <%= f.submit '投稿する',
+                         class: 'flex-1 px-4 py-3 border rounded-md text-center font-medium transition-colors hover:shadow-md',
                          style: 'color: white; background-color: #b8854a; border-color: #b8854a;' %>
           </div>
         <% end %>  <!-- form_with の終了 -->
