@@ -35,7 +35,7 @@
             <%= image_tag @specialty.image.variant(resize_to_fill: [500, 500]),
                 alt: @specialty.name,
                 class: "w-full h-full object-cover",
-                style: "min-height: 280px; max-height: 480px;" %>
+                style: "min-height: 280px;" %>
           <% else %>
             <div class="w-full h-full flex items-center justify-center" style="min-height: 280px; color: #d4a574;">
               <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
