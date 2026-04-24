@@ -56,6 +56,7 @@ class SpecialtiesController < ApplicationController
 
   # 更新処理
   def update
+    @specialty.image.purge if params[:specialty][:remove_image] == '1' && @specialty.image.attached?
     if @specialty.update(specialty_params)
       redirect_to @specialty, success: '銘菓を更新しました'
     else

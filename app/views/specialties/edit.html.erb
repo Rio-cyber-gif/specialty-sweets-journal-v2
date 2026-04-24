@@ -68,21 +68,21 @@
 
           <%# 現在の画像 / プレビュー表示エリア %>
           <div class="mb-4">
-            <% if @specialty.persisted? && @specialty.image.attached? %>
+            <% if @specialty.image.attached? && @specialty.image.blob&.persisted? %>
               <p class="text-sm mb-2" id="image_label_text" style="color: #6b5744;">現在の画像:</p>
-              <% begin %>
-                <% if @specialty.image.blob.persisted? %>
-                  <img id="image_preview"
-                       src="<%= @specialty.image.url %>"
-                       alt="プレビュー"
-                       class="object-cover rounded-md border-2"
-                       style="width: 256px; height: 192px; border-color: #d4a574;" />
-                <% else %>
-                  <p class="text-sm text-gray-500">画像を処理中...</p>
-                <% end %>
-              <% rescue ActiveStorage::InvariableError, ActiveStorage::FileNotFoundError => e %>
-                <p class="text-sm text-red-500">画像の表示に失敗しました</p>
-              <% end %>
+              <img id="image_preview"
+                   src="<%= @specialty.image.url %>"
+                   alt="プレビュー"
+                   class="object-cover rounded-md border-2"
+                   style="width: 256px; height: 192px; border-color: #d4a574;" />
+              <div class="mt-3 flex items-center gap-2">
+                <input type="hidden" name="specialty[remove_image]" value="0">
+                <input type="checkbox" name="specialty[remove_image]" id="specialty_remove_image" value="1"
+                       class="w-4 h-4 cursor-pointer" style="accent-color: #dc2626;">
+                <label for="specialty_remove_image" class="text-sm cursor-pointer" style="color: #dc2626;">
+                  現在の画像を削除する
+                </label>
+              </div>
             <% else %>
               <p class="text-sm mb-2" id="image_label_text" style="display: none; color: #6b5744;">選択した画像のプレビュー:</p>
               <img id="image_preview" src="" alt="プレビュー"
