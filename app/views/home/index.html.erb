@@ -441,6 +441,7 @@
                 <% else %>
                   <span class="text-xs" style="color: #a89080;">未設定</span>
                 <% end %>
+                <span class="text-xs" style="color: #a89080;">· <%= time_ago_in_words(specialty.created_at) %>前</span>
               </div>
               <div class="flex items-center gap-3">
                 <span class="flex items-center gap-1 font-semibold text-sm" style="color: #e07090;">
