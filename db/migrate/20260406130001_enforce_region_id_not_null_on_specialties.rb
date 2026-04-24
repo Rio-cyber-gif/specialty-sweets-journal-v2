@@ -1,7 +1,7 @@
 class EnforceRegionIdNotNullOnSpecialties < ActiveRecord::Migration[7.2]
   def up
     # region_id が NULL のレコードが残っていれば安全に停止する
-    null_count = Specialty.where(region_id: nil).count
+    null_count = execute("SELECT COUNT(*) FROM specialties WHERE region_id IS NULL").first["count"].to_i
     if null_count > 0
       raise ActiveRecord::IrreversibleMigration,
             "specialties に region_id が NULL のレコードが #{null_count} 件あります。" \
