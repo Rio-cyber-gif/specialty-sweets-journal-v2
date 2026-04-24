@@ -7,9 +7,8 @@ class SpecialtiesController < ApplicationController
   before_action :set_specialty, only: %i[show edit update destroy]
   before_action :authorize_user!, only: %i[edit update destroy]
 
-  # 一覧表示
   def index
-    @q           = Specialty.ransack(params[:q])
+    @q           = Specialty.publicly_visible.ransack(params[:q])
     @specialties = sorted_specialties(filtered_base)
     @regions     = Region.order(:name)
     @recent_commented_ids = Comment.where('created_at > ?', 24.hours.ago)
@@ -18,54 +17,48 @@ class SpecialtiesController < ApplicationController
                                    .to_set
   end
 
-  # 詳細表示
   def show
-    @comment = Comment.new
+    return redirect_to root_path, danger: 'このページは存在しません' if draft_by_other?
+
+    @comment  = Comment.new
     @comments = @specialty.comments
                           .includes(user: { avatar_attachment: :blob })
                           .order(created_at: :desc)
-    related_base = @specialty.region.specialties
-                             .where.not(id: @specialty.id)
-                             .order(created_at: :desc)
-    @related_specialties_count = related_base.count
-    @related_specialties = related_base.includes(:favorites).limit(3)
+    set_related_specialties
   end
 
-  # 新規作成フォーム
   def new
     @specialty = Specialty.new
     @grouped_regions = build_grouped_regions
   end
 
-  # 編集フォーム
   def edit
     @grouped_regions = build_grouped_regions
   end
 
-  # 新規作成処理
   def create
     @specialty = current_user.specialties.build(specialty_params)
-
+    @specialty.status = params[:draft].present? ? :draft : :published
     if @specialty.save
-      redirect_to @specialty, success: '銘菓を登録しました'
+      msg = @specialty.draft? ? '下書きを保存しました' : '銘菓を登録しました'
+      redirect_to @specialty, success: msg
     else
       flash.now[:danger] = '銘菓の登録に失敗しました'
       render :new, status: :unprocessable_content
     end
   end
 
-  # 更新処理
   def update
-    @specialty.image.purge if params[:specialty][:remove_image] == '1' && @specialty.image.attached?
+    prepare_specialty_for_update
     if @specialty.update(specialty_params)
-      redirect_to @specialty, success: '銘菓を更新しました'
+      msg = @specialty.draft? ? '下書きを保存しました' : '銘菓を更新しました'
+      redirect_to @specialty, success: msg
     else
       flash.now[:danger] = '銘菓の更新に失敗しました'
       render :edit, status: :unprocessable_content
     end
   end
 
-  # 削除処理
   def destroy
     @specialty.destroy!
     redirect_to root_path, danger: '銘菓を削除しました'
@@ -103,18 +96,33 @@ class SpecialtiesController < ApplicationController
     scope
   end
 
-  # パラメータの許可
   def specialty_params
     params.require(:specialty).permit(:name, :region_id, :description, :image, :tag_list)
   end
 
-  # 銘菓の取得
   def set_specialty
     @specialty = Specialty.includes(:favorites, :tags).find(params[:id])
   end
 
-  # 権限チェック（自分の銘菓のみ編集・削除可能）
   def authorize_user!
     redirect_to specialties_path, danger: '権限がありません' unless @specialty.user == current_user
+  end
+
+  def draft_by_other?
+    @specialty.draft? && @specialty.user != current_user
+  end
+
+  def set_related_specialties
+    related_base = @specialty.region.specialties
+                             .publicly_visible
+                             .where.not(id: @specialty.id)
+                             .order(created_at: :desc)
+    @related_specialties_count = related_base.count
+    @related_specialties       = related_base.includes(:favorites).limit(3)
+  end
+
+  def prepare_specialty_for_update
+    @specialty.image.purge if params[:specialty][:remove_image] == '1' && @specialty.image.attached?
+    @specialty.status = params[:draft].present? ? :draft : :published
   end
 end

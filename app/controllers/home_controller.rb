@@ -2,7 +2,7 @@
 
 class HomeController < ApplicationController
   def index
-    @q            = Specialty.ransack(params[:q])
+    @q            = Specialty.publicly_visible.ransack(params[:q])
     @specialties  = filtered_specialties
     @regions      = Region.order(:name)
     @popular_specialties = popular_specialties
@@ -28,7 +28,8 @@ class HomeController < ApplicationController
   end
 
   def popular_specialties
-    Specialty.left_joins(:favorites)
+    Specialty.publicly_visible
+             .left_joins(:favorites)
              .group(:id)
              .order('COUNT(favorites.id) DESC')
              .limit(5)
@@ -40,7 +41,8 @@ class HomeController < ApplicationController
   end
 
   def recent_posts
-    Specialty.includes(:region, :user)
+    Specialty.publicly_visible
+             .includes(:region, :user)
              .order(created_at: :desc)
              .limit(5)
              .map { |s| { type: :post, record: s, created_at: s.created_at } }

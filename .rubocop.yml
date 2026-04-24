@@ -30,3 +30,6 @@ Metrics/MethodLength:
 
 Layout/SpaceInsideArrayLiteralBrackets:
   Enabled: false
+
+Metrics/ClassLength:
+  Max: 110

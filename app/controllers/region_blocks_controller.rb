@@ -10,6 +10,7 @@ class RegionBlocksController < ApplicationController
 
     @block_name = REGION_BLOCK_NAMES[block_key]
     @specialties = Specialty
+                   .publicly_visible
                    .where(region_id: REGION_BLOCKS[block_key])
                    .includes(:user, :favorites, :tags, :region)
                    .order(created_at: :desc)

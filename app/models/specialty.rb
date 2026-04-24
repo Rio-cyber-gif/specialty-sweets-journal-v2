@@ -25,6 +25,10 @@ class Specialty < ApplicationRecord
     favorites.exists?(user_id: user.id)
   end
 
+  enum :status, { published: 0, draft: 1 }
+
+  scope :publicly_visible, -> { published }
+
   validates :name, presence: true, length: { maximum: 100 }
 
   validate :image_type_and_size, if: -> { image.attached? }
