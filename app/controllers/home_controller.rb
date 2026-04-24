@@ -56,7 +56,7 @@ class HomeController < ApplicationController
   end
 
   def block_counts
-    region_counts = Specialty.group(:region_id).count
+    region_counts = Specialty.publicly_visible.group(:region_id).count
     blocks = SpecialtiesController::REGION_BLOCKS
     counts = blocks.transform_values { |ids| region_counts.slice(*ids).values.sum }
     counts.merge('hokkaido' => region_counts.slice(1).values.sum)
