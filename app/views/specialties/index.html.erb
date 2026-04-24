@@ -70,10 +70,11 @@
     <%# グリッドレイアウト: スマホ1列、タブレット2列、PC3列 %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <% @specialties.each do |specialty| %>
-        <%= link_to specialty_path(specialty), class: 'block group' do %>
-          <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 h-full border overflow-hidden"
-               style="border-color: #e8d5c4;">
+        <div class="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border overflow-hidden flex flex-col"
+             style="border-color: #e8d5c4;">
 
+          <%# 画像・内容エリア（銘菓詳細へのリンク） %>
+          <%= link_to specialty_path(specialty), class: 'block flex-1 flex flex-col' do %>
             <%# 画像部分（バッジ重ねるため relative） %>
             <div class="relative">
               <% if specialty.image.attached? %>
@@ -100,7 +101,7 @@
             </div>
 
             <%# カード本体 %>
-            <div class="p-4">
+            <div class="p-4 flex-1">
               <%# タイトル %>
               <h5 class="text-xl font-bold mb-3" style="color: #471e0a;">
                 <%= specialty.name %>
@@ -135,36 +136,42 @@
                 </div>
               <% end %>
             </div>
+          <% end %>
 
-            <%# カードフッター %>
-            <div class="px-4 pb-4 flex items-center justify-between">
-              <div class="flex items-center gap-1.5">
-                <% if specialty.user&.avatar&.attached? %>
-                  <%= image_tag specialty.user.avatar.url,
-                      class: "rounded-full object-cover flex-shrink-0",
-                      style: "width: 28px; height: 28px;" %>
-                <% else %>
-                  <div class="rounded-full flex items-center justify-center flex-shrink-0"
-                       style="width: 28px; height: 28px; background-color: #f5f0eb; border: 1px solid #d4a574;">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #d4a574;">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                    </svg>
-                  </div>
+          <%# カードフッター（リンクの外） %>
+          <div class="px-4 pb-4 flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <% if specialty.user %>
+                <%= link_to user_profile_path(specialty.user), class: "flex items-center gap-1.5", style: "text-decoration: none;" do %>
+                  <% if specialty.user.avatar.attached? %>
+                    <%= image_tag specialty.user.avatar.url,
+                        class: "rounded-full object-cover flex-shrink-0",
+                        style: "width: 28px; height: 28px;" %>
+                  <% else %>
+                    <div class="rounded-full flex items-center justify-center flex-shrink-0"
+                         style="width: 28px; height: 28px; background-color: #f5f0eb; border: 1px solid #d4a574;">
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #d4a574;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                      </svg>
+                    </div>
+                  <% end %>
+                  <span class="text-xs" style="color: #a89080;"><%= specialty.user.name %></span>
                 <% end %>
-                <p class="text-xs" style="color: #a89080;"><%= specialty.user&.name || '未設定' %></p>
-              </div>
-              <div class="flex items-center gap-3 text-xs" style="color: #a89080;">
-                <span>♡ <%= specialty.favorites.size %></span>
-                <span class="flex items-center gap-0.5">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                  <%= specialty.comments.size %>
-                </span>
-              </div>
+              <% else %>
+                <span class="text-xs" style="color: #a89080;">未設定</span>
+              <% end %>
+            </div>
+            <div class="flex items-center gap-3 text-xs" style="color: #a89080;">
+              <span>♡ <%= specialty.favorites.size %></span>
+              <span class="flex items-center gap-0.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <%= specialty.comments.size %>
+              </span>
             </div>
           </div>
-        <% end %>
+        </div>
       <% end %>
     </div>
     <%# ページネーション部分を追加 %>

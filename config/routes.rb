@@ -27,6 +27,9 @@ Rails.application.routes.draw do
   # マイページ
   get 'mypage', to: 'users#mypage', as: :mypage
 
+  # 公開プロフィール
+  get 'users/:id', to: 'users#show', as: :user_profile
+
   # 静的ページ
   get 'terms', to: 'pages#terms'
   get 'privacy', to: 'pages#privacy'
