@@ -121,10 +121,12 @@
                         style: 'color: #471e0a; background-color: white; border-color: #d4a574;' %>
             <%= f.submit '下書き保存', name: 'draft',
                          class: 'flex-1 px-4 py-3 border rounded-md text-center font-medium transition-colors hover:shadow-md',
-                         style: 'color: #8b7355; background-color: white; border-color: #8b7355;' %>
+                         style: 'color: #8b7355; background-color: white; border-color: #8b7355;',
+                         data: { turbo_submits_with: '保存中...' } %>
             <%= f.submit '投稿する',
                          class: 'flex-1 px-4 py-3 border rounded-md text-center font-medium transition-colors hover:shadow-md',
-                         style: 'color: white; background-color: #b8854a; border-color: #b8854a;' %>
+                         style: 'color: white; background-color: #b8854a; border-color: #b8854a;',
+                         data: { turbo_submits_with: '投稿中...' } %>
           </div>
         <% end %>  <!-- form_with の終了 -->
       </div>  <!-- p-6 md:p-8 の div の終了 -->
