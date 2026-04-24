@@ -105,7 +105,7 @@ class SpecialtiesController < ApplicationController
 
   # パラメータの許可
   def specialty_params
-    params.require(:specialty).permit(:name, :region_id, :description, :image, :tag_list, :remove_image)
+    params.require(:specialty).permit(:name, :region_id, :description, :image, :tag_list)
   end
 
   # 銘菓の取得
