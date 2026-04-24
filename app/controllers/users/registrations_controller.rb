@@ -16,6 +16,7 @@ module Users
 
     # #26 画像未選択で保存した場合に既存アバターを保持する
     def update_resource(resource, params)
+      resource.avatar.purge if params.delete(:remove_avatar) == '1' && resource.avatar.attached?
       params.delete(:avatar) if params[:avatar].blank?
       super
     end

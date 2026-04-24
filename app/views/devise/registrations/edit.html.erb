@@ -24,6 +24,14 @@
             <img id="edit_avatar_preview" src="<%= resource.avatar.url %>"
                  class="rounded-full object-cover border-2"
                  style="width: 80px; height: 80px; border-color: #d4a574;">
+            <div class="flex items-center gap-2">
+              <input type="hidden" name="user[remove_avatar]" value="0">
+              <input type="checkbox" name="user[remove_avatar]" id="user_remove_avatar" value="1"
+                     class="w-4 h-4 cursor-pointer" style="accent-color: #dc2626;">
+              <label for="user_remove_avatar" class="text-xs cursor-pointer" style="color: #dc2626;">
+                アイコンを削除する
+              </label>
+            </div>
           <% else %>
             <div id="edit_avatar_placeholder" class="w-20 h-20 rounded-full flex items-center justify-center border-2"
                  style="background-color: #f5f0eb; border-color: #d4a574;">
