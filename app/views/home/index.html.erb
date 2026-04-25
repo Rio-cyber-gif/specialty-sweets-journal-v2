@@ -72,6 +72,44 @@
       <div class="md:col-span-2 flex flex-col">
         <p class="text-sm font-semibold font-serif mb-3" style="color: #8b7355;">🗾 地域から探す</p>
         <div class="bg-white rounded-xl border p-3 flex-1" style="border-color: #e8d5c4;">
+
+          <%# スマホ用: 地方ブロックボタングリッド %>
+          <div class="grid grid-cols-2 gap-2 md:hidden">
+            <%= link_to region_path(1), class: "flex flex-col items-center justify-center rounded-lg py-3 px-2 text-center", style: "background-color: #b8d8f0;" do %>
+              <span class="font-bold text-sm font-serif" style="color: #2d1006;">北海道</span>
+              <span class="text-xs mt-0.5" style="color: #5a3820;"><%= @block_counts['hokkaido'] %>件</span>
+            <% end %>
+            <%= link_to region_block_page_path('tohoku'), class: "flex flex-col items-center justify-center rounded-lg py-3 px-2 text-center", style: "background-color: #b8d8b8;" do %>
+              <span class="font-bold text-sm font-serif" style="color: #2d1006;">東北</span>
+              <span class="text-xs mt-0.5" style="color: #5a3820;"><%= @block_counts['tohoku'] %>件</span>
+            <% end %>
+            <%= link_to region_block_page_path('kanto'), class: "flex flex-col items-center justify-center rounded-lg py-3 px-2 text-center", style: "background-color: #e8dcc8;" do %>
+              <span class="font-bold text-sm font-serif" style="color: #2d1006;">関東</span>
+              <span class="text-xs mt-0.5" style="color: #5a3820;"><%= @block_counts['kanto'] %>件</span>
+            <% end %>
+            <%= link_to region_block_page_path('chubu'), class: "flex flex-col items-center justify-center rounded-lg py-3 px-2 text-center", style: "background-color: #c4d8ec;" do %>
+              <span class="font-bold text-sm font-serif" style="color: #2d1006;">中部</span>
+              <span class="text-xs mt-0.5" style="color: #5a3820;"><%= @block_counts['chubu'] %>件</span>
+            <% end %>
+            <%= link_to region_block_page_path('chugoku'), class: "flex flex-col items-center justify-center rounded-lg py-3 px-2 text-center", style: "background-color: #b8d8d0;" do %>
+              <span class="font-bold text-sm font-serif" style="color: #2d1006;">中国</span>
+              <span class="text-xs mt-0.5" style="color: #5a3820;"><%= @block_counts['chugoku'] %>件</span>
+            <% end %>
+            <%= link_to region_block_page_path('kinki'), class: "flex flex-col items-center justify-center rounded-lg py-3 px-2 text-center", style: "background-color: #d8c8e8;" do %>
+              <span class="font-bold text-sm font-serif" style="color: #2d1006;">近畿</span>
+              <span class="text-xs mt-0.5" style="color: #5a3820;"><%= @block_counts['kinki'] %>件</span>
+            <% end %>
+            <%= link_to region_block_page_path('kyushu'), class: "flex flex-col items-center justify-center rounded-lg py-3 px-2 text-center", style: "background-color: #f0ccb8;" do %>
+              <span class="font-bold text-sm font-serif" style="color: #2d1006;">九州・沖縄</span>
+              <span class="text-xs mt-0.5" style="color: #5a3820;"><%= @block_counts['kyushu'] %>件</span>
+            <% end %>
+            <%= link_to region_block_page_path('shikoku'), class: "flex flex-col items-center justify-center rounded-lg py-3 px-2 text-center", style: "background-color: #cce0b0;" do %>
+              <span class="font-bold text-sm font-serif" style="color: #2d1006;">四国</span>
+              <span class="text-xs mt-0.5" style="color: #5a3820;"><%= @block_counts['shikoku'] %>件</span>
+            <% end %>
+          </div>
+
+          <%# PC用: SVG地図 %>
           <%#
             日本地図 — 8地方ブロック (viewBox 500x440)
             ・北海道(右上)→九州(左下) 対角NE-SW配置
@@ -79,7 +117,7 @@
             ・隣接する本州ブロックは中部を横断ベルトとして隣接
             ・四国・九州は独立した島として隙間あり
           %>
-          <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" class="w-full" style="display:block;">
+          <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" class="w-full hidden md:block">
             <defs>
               <style>
                 .tm { stroke: white; stroke-width: 3; cursor: pointer; transition: fill 0.18s; }
