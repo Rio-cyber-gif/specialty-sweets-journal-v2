@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   # Specialties（銘菓）の全アクション
   resources :specialties do
-    resources :comments, only: %i[create destroy]
+    resources :comments, only: %i[create update destroy]
     resource :favorite, only: %i[create destroy]
   end
 
