@@ -349,7 +349,7 @@
         <span class="text-lg ml-1 font-normal" style="color: #8b7355;">(<%= @specialties.total_count %>件)</span>
       </h2>
       <div class="flex-1 flex justify-end min-w-0">
-        <%= search_form_for @q, url: root_path, html: { class: "w-full sm:max-w-lg" } do |f| %>
+        <%= search_form_for @q, url: root_path, html: { class: "w-full", style: "max-width: 26rem;" } do |f| %>
           <div class="flex items-center" style="border: 1px solid #d4a574; border-radius: 9999px; background: white; overflow: hidden;">
             <%= f.search_field :name_cont,
                 placeholder: "銘菓名を検索...",
