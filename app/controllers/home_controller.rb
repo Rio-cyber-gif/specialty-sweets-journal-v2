@@ -18,7 +18,8 @@ class HomeController < ApplicationController
 
   def filtered_specialties
     scope = @q.result(distinct: true)
-              .includes({ user: { avatar_attachment: :blob } }, :region, :tags, :favorites, :comments)
+              .includes({ image_attachment: :blob }, { user: { avatar_attachment: :blob } },
+                        :region, :tags, :favorites, :comments)
               .order(created_at: :desc)
               .page(params[:page])
               .per(6)
@@ -33,7 +34,7 @@ class HomeController < ApplicationController
              .group(:id)
              .order('COUNT(favorites.id) DESC')
              .limit(5)
-             .includes(:region, :favorites)
+             .includes({ image_attachment: :blob }, :region, :favorites)
   end
 
   def recent_activities
