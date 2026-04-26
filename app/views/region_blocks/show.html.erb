@@ -23,8 +23,8 @@
     <% if @specialties.any? %>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <% @specialties.each do |specialty| %>
-          <%= link_to specialty_path(specialty), class: "block group" do %>
-            <div class="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-shadow" style="border-color: #e8d5c4;">
+          <%= link_to specialty_path(specialty), class: "block group h-full" do %>
+            <div class="bg-white rounded-xl border overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col" style="border-color: #e8d5c4;">
               <% if specialty.image.attached? %>
                 <%= image_tag specialty.image.variant(resize_to_fill: [400, 260]),
                     class: "w-full object-cover",
@@ -37,23 +37,25 @@
                   </svg>
                 </div>
               <% end %>
-              <div class="p-4">
-                <h3 class="text-base font-bold mb-1 truncate" style="color: #471e0a;"><%= specialty.name %></h3>
-                <p class="text-xs mb-1" style="color: #a89080;"><%= specialty.region.name %></p>
-                <% if specialty.description.present? %>
-                  <p class="text-xs leading-relaxed line-clamp-2 mb-2" style="color: #6b5744;"><%= specialty.description %></p>
-                <% end %>
-                <% if specialty.tags.any? %>
-                  <div class="flex flex-wrap gap-1 mb-2">
-                    <% specialty.tags.first(3).each do |tag| %>
-                      <span class="inline-block px-2 py-0.5 rounded-full text-xs"
-                            style="background-color: #f5ece0; color: #8b7355; border: 1px solid #e8d5c4;">
-                        #<%= tag.name %>
-                      </span>
-                    <% end %>
-                  </div>
-                <% end %>
-                <div class="flex items-center justify-between">
+              <div class="p-4 flex-1 flex flex-col">
+                <div class="flex-1">
+                  <h3 class="text-base font-bold mb-1 truncate" style="color: #471e0a;"><%= specialty.name %></h3>
+                  <p class="text-xs mb-1" style="color: #a89080;"><%= specialty.region.name %></p>
+                  <% if specialty.description.present? %>
+                    <p class="text-xs leading-relaxed line-clamp-2 mb-2" style="color: #6b5744;"><%= specialty.description %></p>
+                  <% end %>
+                  <% if specialty.tags.any? %>
+                    <div class="flex flex-wrap gap-1 mb-2">
+                      <% specialty.tags.first(3).each do |tag| %>
+                        <span class="inline-block px-2 py-0.5 rounded-full text-xs"
+                              style="background-color: #f5ece0; color: #8b7355; border: 1px solid #e8d5c4;">
+                          #<%= tag.name %>
+                        </span>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="flex items-center justify-between mt-2">
                   <span class="text-xs" style="color: #a89080;">投稿者: <%= specialty.user&.name || '未設定' %></span>
                   <span class="text-xs" style="color: #d4a574;">♡ <%= specialty.favorites.size %></span>
                 </div>
