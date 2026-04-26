@@ -1,31 +1,66 @@
 <div id="comment_<%= comment.id %>" class="py-4 border-b last:border-b-0" style="border-color: #e8d5c4;">
-  <div class="flex items-start justify-between gap-4">
-    <div class="flex-1">
-      <div class="flex items-center gap-2 mb-1">
-        <% if comment.user.avatar.attached? %>
-          <%= image_tag comment.user.avatar.url,
-              class: "rounded-full object-cover flex-shrink-0",
-              style: "width: 28px; height: 28px;" %>
-        <% else %>
-          <div class="rounded-full flex items-center justify-center flex-shrink-0"
-               style="width: 28px; height: 28px; background-color: #f5f0eb; border: 1px solid #d4a574;">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #d4a574;">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-            </svg>
-          </div>
-        <% end %>
-        <span class="text-sm font-medium" style="color: #471e0a;"><%= comment.user.name %></span>
-        <span class="text-xs" style="color: #a89080;"><%= l comment.created_at, format: :long %></span>
+
+  <%# 表示モード %>
+  <div id="comment_display_<%= comment.id %>">
+    <div class="flex items-start justify-between gap-4">
+      <div class="flex-1">
+        <div class="flex items-center gap-2 mb-1">
+          <% if comment.user.avatar.attached? %>
+            <%= image_tag comment.user.avatar.url,
+                class: "rounded-full object-cover flex-shrink-0",
+                style: "width: 28px; height: 28px;" %>
+          <% else %>
+            <div class="rounded-full flex items-center justify-center flex-shrink-0"
+                 style="width: 28px; height: 28px; background-color: #f5f0eb; border: 1px solid #d4a574;">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #d4a574;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+            </div>
+          <% end %>
+          <span class="text-sm font-medium" style="color: #471e0a;"><%= comment.user.name %></span>
+          <span class="text-xs" style="color: #a89080;"><%= l comment.created_at, format: :long %></span>
+        </div>
+        <p class="text-sm leading-relaxed whitespace-pre-wrap" style="color: #471e0a;"><%= comment.body %></p>
       </div>
-      <p class="text-sm leading-relaxed whitespace-pre-wrap" style="color: #471e0a;"><%= comment.body %></p>
-    </div>
-    <% if user_signed_in? && comment.user == current_user %>
-      <%= button_to specialty_comment_path(specialty, comment), method: :delete,
-          data: { turbo_confirm: "このコメントを削除しますか？" },
-          class: "shrink-0 text-xs px-2 py-1 rounded border",
-          style: "color: #dc2626; border-color: #dc2626; background: white; cursor: pointer;" do %>
-        削除
+      <% if user_signed_in? && comment.user == current_user %>
+        <div class="flex gap-1 shrink-0">
+          <button type="button"
+                  onclick="document.getElementById('comment_display_<%= comment.id %>').style.display='none'; document.getElementById('comment_edit_<%= comment.id %>').style.display='block';"
+                  class="text-xs px-2 py-1 rounded border"
+                  style="color: #8b7355; border-color: #d4a574; background: white; cursor: pointer;">
+            編集
+          </button>
+          <%= button_to specialty_comment_path(specialty, comment), method: :delete,
+              data: { turbo_confirm: "このコメントを削除しますか？" },
+              class: "text-xs px-2 py-1 rounded border",
+              style: "color: #dc2626; border-color: #dc2626; background: white; cursor: pointer;" do %>
+            削除
+          <% end %>
+        </div>
       <% end %>
-    <% end %>
+    </div>
   </div>
+
+  <%# 編集モード（初期非表示） %>
+  <% if user_signed_in? && comment.user == current_user %>
+    <div id="comment_edit_<%= comment.id %>" style="display: none;">
+      <%= form_with model: [specialty, comment] do |f| %>
+        <%= f.text_area :body, rows: 3,
+            class: "w-full px-3 py-2 text-sm rounded-md border focus:outline-none",
+            style: "border-color: #d4a574; color: #471e0a;" %>
+        <div class="flex gap-2 mt-2">
+          <%= f.submit "保存する",
+              class: "px-3 py-1 text-xs font-medium text-white rounded cursor-pointer",
+              style: "background-color: #b8854a;" %>
+          <button type="button"
+                  onclick="document.getElementById('comment_edit_<%= comment.id %>').style.display='none'; document.getElementById('comment_display_<%= comment.id %>').style.display='block';"
+                  class="px-3 py-1 text-xs font-medium rounded border"
+                  style="color: #8b7355; border-color: #d4a574; background: white; cursor: pointer;">
+            キャンセル
+          </button>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
 </div>

@@ -3,8 +3,8 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_specialty
-  before_action :set_comment, only: [:destroy]
-  before_action :authorize_user!, only: [:destroy]
+  before_action :set_comment, only: %i[update destroy]
+  before_action :authorize_user!, only: %i[update destroy]
 
   def create
     @comment = @specialty.comments.build(comment_params)
@@ -14,6 +14,14 @@ class CommentsController < ApplicationController
       respond_to_comment_success
     else
       respond_to_comment_failure
+    end
+  end
+
+  def update
+    if @comment.update(comment_params)
+      respond_to_update_success
+    else
+      respond_to_update_failure
     end
   end
 
@@ -66,6 +74,32 @@ class CommentsController < ApplicationController
         flash.now[:danger] = 'コメントの投稿に失敗しました'
         render 'specialties/show', status: :unprocessable_content
       end
+    end
+  end
+
+  def respond_to_update_success
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          "comment_#{@comment.id}",
+          partial: 'comments/comment',
+          locals: { specialty: @specialty, comment: @comment }
+        )
+      end
+      format.html { redirect_to @specialty, success: 'コメントを更新しました' }
+    end
+  end
+
+  def respond_to_update_failure
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          "comment_#{@comment.id}",
+          partial: 'comments/comment',
+          locals: { specialty: @specialty, comment: @comment }
+        )
+      end
+      format.html { redirect_to @specialty, danger: 'コメントの更新に失敗しました' }
     end
   end
   # rubocop:enable Metrics/MethodLength
