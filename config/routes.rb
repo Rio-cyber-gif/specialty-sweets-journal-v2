@@ -27,6 +27,9 @@ Rails.application.routes.draw do
   # マイページ
   get 'mypage', to: 'users#mypage', as: :mypage
 
+  # プロフィール更新（アイコン・名前・自己紹介）
+  patch 'users/profile', to: 'users#update_profile', as: :update_user_profile
+
   # 公開プロフィール
   get 'users/:id', to: 'users#show', as: :user_profile
 
