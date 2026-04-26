@@ -33,7 +33,7 @@ class HomeController < ApplicationController
              .group(:id)
              .order('COUNT(favorites.id) DESC')
              .limit(5)
-             .includes(:region)
+             .includes(:region, :favorites)
   end
 
   def recent_activities
