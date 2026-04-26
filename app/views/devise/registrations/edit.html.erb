@@ -13,15 +13,17 @@
 
     <h1 class="text-2xl font-bold font-serif mb-8" style="color: #471e0a;">プロフィール編集</h1>
 
-    <div class="bg-white rounded-xl shadow-sm border p-8" style="border-color: #e8d5c4;">
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
-            html: { method: :put, enctype: "multipart/form-data", data: { turbo: false } }) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
+    <%# ===== フォーム1: アイコン・名前・自己紹介（パスワード不要） ===== %>
+    <div class="bg-white rounded-xl shadow-sm border p-8 mb-6" style="border-color: #e8d5c4;">
+      <h2 class="text-sm font-semibold mb-6" style="color: #8b7355;">プロフィール情報</h2>
+
+      <%= form_with url: update_user_profile_path, method: :patch,
+            html: { enctype: "multipart/form-data", data: { turbo: false } } do |f| %>
 
         <%# アバター %>
         <div class="mb-6 flex flex-col items-center gap-3">
-          <% if resource.avatar.attached? %>
-            <img id="edit_avatar_preview" src="<%= resource.avatar.url %>"
+          <% if current_user.avatar.attached? %>
+            <img id="edit_avatar_preview" src="<%= current_user.avatar.url %>"
                  class="rounded-full object-cover border-2"
                  style="width: 80px; height: 80px; border-color: #d4a574;">
             <div class="flex items-center gap-2">
@@ -43,12 +45,12 @@
                  class="rounded-full object-cover border-2">
           <% end %>
           <div>
-            <%= f.label :avatar, "アイコン画像を変更", class: "block text-xs font-medium mb-1", style: "color: #8b7355;" %>
-            <%= f.file_field :avatar, accept: "image/*", id: "edit_avatar_input",
-                class: "block text-xs",
-                style: "color: #8b7355;" %>
+            <label class="block text-xs font-medium mb-1" style="color: #8b7355;">アイコン画像を変更</label>
+            <input type="file" name="user[avatar]" accept="image/*" id="edit_avatar_input"
+                   class="block text-xs" style="color: #8b7355;">
           </div>
         </div>
+
         <script>
           document.getElementById('edit_avatar_input').addEventListener('change', function(e) {
             var file = e.target.files[0];
@@ -64,21 +66,37 @@
 
         <%# 名前 %>
         <div class="mb-5">
-          <%= f.label :name, "名前", class: "block text-sm font-medium mb-1", style: "color: #471e0a;" %>
-          <%= f.text_field :name,
-              class: "w-full px-3 py-2 rounded-md border text-sm focus:outline-none",
-              style: "border-color: #d4a574; color: #471e0a;" %>
+          <label class="block text-sm font-medium mb-1" style="color: #471e0a;">名前</label>
+          <input type="text" name="user[name]" value="<%= current_user.name %>" required
+                 class="w-full px-3 py-2 rounded-md border text-sm focus:outline-none"
+                 style="border-color: #d4a574; color: #471e0a;">
         </div>
 
         <%# 自己紹介 %>
-        <div class="mb-5">
-          <%= f.label :bio, "自己紹介", class: "block text-sm font-medium mb-1", style: "color: #471e0a;" %>
-          <%= f.text_area :bio, rows: 4,
-              placeholder: "お菓子への想いや旅の記録など...",
-              class: "w-full px-3 py-2 rounded-md border text-sm focus:outline-none resize-none",
-              style: "border-color: #d4a574; color: #471e0a;" %>
+        <div class="mb-6">
+          <label class="block text-sm font-medium mb-1" style="color: #471e0a;">自己紹介</label>
+          <textarea name="user[bio]" rows="4"
+                    placeholder="お菓子への想いや旅の記録など..."
+                    class="w-full px-3 py-2 rounded-md border text-sm focus:outline-none resize-none"
+                    style="border-color: #d4a574; color: #471e0a;"><%= current_user.bio %></textarea>
           <p class="text-xs mt-1" style="color: #a89080;">最大300文字</p>
         </div>
+
+        <button type="submit"
+                class="w-full py-2.5 text-sm font-medium text-white rounded-md cursor-pointer transition"
+                style="background-color: #b8854a;">
+          プロフィールを保存する
+        </button>
+      <% end %>
+    </div>
+
+    <%# ===== フォーム2: メールアドレス・パスワード（現在のパスワード必要） ===== %>
+    <div class="bg-white rounded-xl shadow-sm border p-8" style="border-color: #e8d5c4;">
+      <h2 class="text-sm font-semibold mb-6" style="color: #8b7355;">メールアドレス・パスワード変更</h2>
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
+            html: { method: :put, data: { turbo: false } }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
 
         <%# メールアドレス %>
         <div class="mb-5">
@@ -120,13 +138,13 @@
           <p id="current_password_error" class="text-xs mt-1" style="color: #dc2626; display: none;">現在のパスワードを入力してください</p>
         </div>
 
-        <%= f.submit "保存する", id: "profile_submit",
+        <%= f.submit "メール・パスワードを保存する", id: "account_submit",
             class: "w-full py-2.5 text-sm font-medium text-white rounded-md cursor-pointer transition",
-            style: "background-color: #b8854a;" %>
+            style: "background-color: #471e0a;" %>
       <% end %>
 
       <script>
-        document.getElementById('profile_submit').addEventListener('click', function(e) {
+        document.getElementById('account_submit').addEventListener('click', function(e) {
           var passwordField = document.getElementById('current_password_field');
           var errorMsg = document.getElementById('current_password_error');
           var wrapper = document.getElementById('current_password_wrapper');
@@ -143,5 +161,5 @@
       </script>
     </div>
 
-</div>
+  </div>
 </div>
