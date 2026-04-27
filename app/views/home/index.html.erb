@@ -355,11 +355,6 @@
                 placeholder: "銘菓名を検索...",
                 class: "flex-1 px-4 py-2 text-sm focus:outline-none",
                 style: "color: #471e0a; background: transparent; border: none; min-width: 0;" %>
-            <div style="width: 1px; height: 1.1rem; background: #d4a574; flex-shrink: 0;"></div>
-            <%= f.collection_select :region_id_eq, @regions, :id, :name,
-                { include_blank: "地域" },
-                class: "py-2 text-sm focus:outline-none",
-                style: "color: #471e0a; background: transparent; border: none; width: 6rem; padding-left: 0.5rem; padding-right: 0.25rem;" %>
             <%= f.submit "検索",
                 class: "px-4 py-2 text-sm font-medium text-white cursor-pointer flex-shrink-0",
                 style: "background-color: #b8854a; border-radius: 0 9999px 9999px 0; white-space: nowrap; border: none;" %>

@@ -4,7 +4,6 @@ class HomeController < ApplicationController
   def index
     @q            = Specialty.publicly_visible.ransack(params[:q])
     @specialties  = filtered_specialties
-    @regions      = Region.order(:name)
     @popular_specialties = popular_specialties
     @recent_activities   = recent_activities
     @block_counts        = block_counts
